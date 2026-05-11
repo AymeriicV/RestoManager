@@ -692,6 +692,65 @@ select {
   box-shadow: 0 18px 40px rgba(18, 24, 31, 0.06);
 }
 
+.wizard-step-card.intro-card {
+  display: grid;
+  align-content: space-between;
+  gap: 1rem;
+  background: linear-gradient(180deg, rgba(19, 36, 49, 0.97), rgba(17, 27, 36, 0.95));
+  color: #fff;
+}
+
+.intro-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.intro-brand .eyebrow {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.intro-brand strong {
+  font-size: 1.05rem;
+}
+
+.intro-bullets {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.intro-bullets > div {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.9rem 1rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.intro-bullets span {
+  display: inline-flex;
+  width: 2rem;
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.intro-bullets strong {
+  color: #fff;
+  font-size: 0.96rem;
+}
+
+.intro-card .wizard-actions {
+  margin-top: 0;
+}
+
 .wizard-nav,
 .wizard-actions {
   display: flex;

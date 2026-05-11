@@ -44,7 +44,6 @@
           </p>
           <div class="hero-actions">
             <button class="btn primary" id="start-config" type="button">Commencer la configuration</button>
-            <a class="btn secondary" href="#benefits">Découvrir la plateforme</a>
           </div>
           <div class="hero-micro">
             <div>
@@ -234,6 +233,11 @@
         </div>
         <div class="wizard-progress"><span id="wizard-progress"></span></div>
         <div class="wizard-steps">
+          <button class="wizard-step" type="button" data-wizard-step="1">
+            <span>01</span>
+            <strong>Bienvenue</strong>
+            <small>Présentation</small>
+          </button>
           <button class="wizard-step" type="button" data-wizard-step="2">
             <span>02</span>
             <strong>Restaurant</strong>
@@ -282,6 +286,40 @@
         </div>
         <div class="wizard-panels">
           <form class="config-form wizard-form" id="restaurant-form">
+            <section class="wizard-panel" data-step-panel="1">
+              <div class="wizard-step-layout">
+                <div class="wizard-step-copy">
+                  <p class="eyebrow">Étape 1</p>
+                  <h3>Bienvenue dans Operyx</h3>
+                  <p>
+                    Nous allons préparer votre espace restaurant étape par étape. Chaque écran configure un
+                    bloc métier clair, puis l’espace dédié est généré à la fin.
+                  </p>
+                  <div class="wizard-side-card">
+                    <span>Ce que vous allez configurer</span>
+                    <strong>Restaurant, horaires, équipe, stock, HACCP, températures, impression, modules et résumé.</strong>
+                  </div>
+                </div>
+                <div class="wizard-step-card intro-card">
+                  <div class="intro-brand">
+                    <img class="brand-logo brand-logo-large" src="./public/branding/operyx-logo.png" alt="Operyx" />
+                    <div>
+                      <p class="eyebrow">Restaurant Operating System</p>
+                      <strong>Operyx</strong>
+                    </div>
+                  </div>
+                  <div class="intro-bullets">
+                    <div><span>01</span><strong>Une seule étape à la fois</strong></div>
+                    <div><span>02</span><strong>Configuration progressive et sauvegarde locale</strong></div>
+                    <div><span>03</span><strong>Pack client prêt à déployer</strong></div>
+                  </div>
+                  <div class="wizard-actions">
+                    <button class="btn primary" type="button" id="wizard-start-step">Commencer</button>
+                  </div>
+                </div>
+              </div>
+            </section>
+
             <section class="wizard-panel" data-step-panel="2">
               <div class="wizard-step-layout">
                 <div class="wizard-step-copy">

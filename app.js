@@ -143,6 +143,7 @@ const wizardHint = document.getElementById("wizard-hint");
 const presetButtons = document.querySelectorAll("[data-preset]");
 const wizardPrev = document.getElementById("wizard-prev");
 const wizardNext = document.getElementById("wizard-next");
+const wizardStartStepButton = document.getElementById("wizard-start-step");
 const moduleSwitches = document.getElementById("module-switches");
 const openingDaysGrid = document.getElementById("opening-days");
 const stockCategoriesGrid = document.getElementById("stock-categories");
@@ -411,11 +412,12 @@ function renderWizard() {
     panel.hidden = step !== activeStep;
   });
   if (wizardProgress) {
-    const progress = started ? ((activeStep - 2) / 8) * 100 : 0;
+    const progress = started ? ((activeStep - 1) / 9) * 100 : 0;
     wizardProgress.style.width = `${Math.max(0, Math.min(100, progress))}%`;
   }
   if (wizardLabel) {
     const labels = {
+      1: "Bienvenue",
       2: "Restaurant",
       3: "Horaires & services",
       4: "Équipe",
@@ -815,8 +817,8 @@ form.addEventListener("input", () => {
 
 startConfigButton?.addEventListener("click", () => {
   state.wizard.started = true;
-  if (state.wizard.step < 2) {
-    state.wizard.step = 2;
+  if (state.wizard.step < 1) {
+    state.wizard.step = 1;
   }
   saveConfig();
   renderAll();
@@ -836,7 +838,7 @@ presetButtons.forEach((button) => {
 });
 
 wizardPrev?.addEventListener("click", () => {
-  if (state.wizard.step <= 2) {
+  if (state.wizard.step <= 1) {
     state.wizard.started = false;
     state.wizard.step = 1;
   } else {
@@ -855,6 +857,13 @@ wizardNext?.addEventListener("click", () => {
     return;
   }
   state.activation.status = "Validation requise";
+  saveConfig();
+  renderAll();
+});
+
+wizardStartStepButton?.addEventListener("click", () => {
+  state.wizard.started = true;
+  state.wizard.step = 2;
   saveConfig();
   renderAll();
 });
