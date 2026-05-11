@@ -454,6 +454,174 @@ select {
   margin-top: 1rem;
 }
 
+.wizard-bar {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 20px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(247, 245, 241, 0.9));
+  border: 1px solid rgba(221, 214, 203, 0.9);
+  box-shadow: 0 16px 38px rgba(32, 27, 21, 0.06);
+}
+
+.wizard-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.wizard-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.wizard-steps {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.wizard-step {
+  display: grid;
+  gap: 0.25rem;
+  text-align: left;
+  padding: 0.95rem;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.wizard-step span {
+  display: inline-flex;
+  width: 2rem;
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(32, 59, 63, 0.1);
+  font-weight: 700;
+}
+
+.wizard-step strong {
+  font-size: 0.98rem;
+}
+
+.wizard-step small {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.wizard-step.active {
+  border-color: rgba(32, 59, 63, 0.22);
+  background: linear-gradient(180deg, rgba(32, 59, 63, 0.08), rgba(32, 59, 63, 0.03));
+  box-shadow: 0 12px 24px rgba(32, 59, 63, 0.08);
+}
+
+.wizard-step.active span {
+  background: var(--accent);
+  color: #fff;
+}
+
+.wizard-progress {
+  height: 0.42rem;
+  margin-top: 1rem;
+  border-radius: 999px;
+  background: rgba(32, 59, 63, 0.08);
+  overflow: hidden;
+}
+
+.wizard-progress span {
+  display: block;
+  height: 100%;
+  width: 20%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+}
+
+.wizard-insights {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.wizard-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.wizard-card {
+  padding: 0.95rem;
+  border-radius: 16px;
+  background: rgba(32, 59, 63, 0.06);
+  border: 1px solid rgba(32, 59, 63, 0.08);
+}
+
+.wizard-card span {
+  display: block;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.wizard-card strong {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 1rem;
+}
+
+.wizard-card p {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+  line-height: 1.5;
+  font-size: 0.9rem;
+}
+
+.wizard-panel[hidden] {
+  display: none;
+}
+
+.review-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.review-grid > div {
+  padding: 0.95rem;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+
+.review-grid span {
+  display: block;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 0.35rem;
+}
+
+.review-grid strong {
+  font-size: 0.98rem;
+}
+
+.wizard-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
 .config-head {
   display: flex;
   justify-content: space-between;
@@ -605,13 +773,24 @@ select:focus {
   .pricing-grid,
   .dossier,
   .activation-layout,
-  .blueprint-grid {
+  .blueprint-grid,
+  .wizard-steps,
+  .wizard-insights {
     grid-template-columns: 1fr;
     display: grid;
   }
 
   .config-head {
     display: grid;
+  }
+
+  .wizard-top {
+    display: grid;
+  }
+
+  .wizard-cards,
+  .review-grid {
+    grid-template-columns: 1fr;
   }
 
   .section-head,

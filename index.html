@@ -143,174 +143,317 @@
           </div>
         </div>
 
+        <div class="wizard-bar panel">
+          <div class="wizard-top">
+            <div>
+              <p class="eyebrow">Assistant de configuration</p>
+              <h3 id="wizard-label"></h3>
+              <p id="wizard-hint" class="muted"></p>
+            </div>
+            <div class="wizard-presets">
+              <button class="btn secondary preset-btn" type="button" data-preset="bistrot">Bistrot</button>
+              <button class="btn secondary preset-btn" type="button" data-preset="gastro">Gastro</button>
+              <button class="btn secondary preset-btn" type="button" data-preset="groupe">Groupe</button>
+            </div>
+          </div>
+          <div class="wizard-steps">
+            <button class="wizard-step" type="button" data-wizard-step="1">
+              <span>01</span>
+              <strong>Identité</strong>
+              <small>Base et image</small>
+            </button>
+            <button class="wizard-step" type="button" data-wizard-step="2">
+              <span>02</span>
+              <strong>Exploitation</strong>
+              <small>Équipe et sites</small>
+            </button>
+            <button class="wizard-step" type="button" data-wizard-step="3">
+              <span>03</span>
+              <strong>Modules</strong>
+              <small>Périmètre métier</small>
+            </button>
+            <button class="wizard-step" type="button" data-wizard-step="4">
+              <span>04</span>
+              <strong>Équipements</strong>
+              <small>HACCP et périphériques</small>
+            </button>
+            <button class="wizard-step" type="button" data-wizard-step="5">
+              <span>05</span>
+              <strong>Activation</strong>
+              <small>Préparation finale</small>
+            </button>
+          </div>
+          <div class="wizard-progress"><span id="wizard-progress"></span></div>
+          <div class="wizard-insights">
+            <div>
+              <p class="eyebrow">Recommandations</p>
+              <ul id="wizard-recommendations" class="checklist compact"></ul>
+            </div>
+            <div class="wizard-cards">
+              <article class="wizard-card">
+                <span>Équipe</span>
+                <strong id="blueprint-employees"></strong>
+                <p>Base d'accès et planning</p>
+              </article>
+              <article class="wizard-card">
+                <span>Froid</span>
+                <strong id="blueprint-fridges"></strong>
+                <p>Équipements HACCP</p>
+              </article>
+              <article class="wizard-card">
+                <span>Contrôle</span>
+                <strong id="blueprint-printers"></strong>
+                <p>Impression et étiquettes</p>
+              </article>
+            </div>
+          </div>
+        </div>
+
         <div class="config-layout">
           <form class="config-form" id="restaurant-form">
-            <div class="form-grid">
-              <label>
-                <span>Nom du restaurant</span>
-                <input name="restaurantName" type="text" />
-              </label>
-              <label>
-                <span>Adresse</span>
-                <input name="address" type="text" />
-              </label>
-              <label>
-                <span>Ville</span>
-                <input name="city" type="text" />
-              </label>
-              <label>
-                <span>Devise</span>
-                <input name="currency" type="text" />
-              </label>
-              <label>
-                <span>TVA</span>
-                <input name="vatRate" type="number" step="0.01" />
-              </label>
-              <label>
-                <span>Fuseau horaire</span>
-                <input name="timezone" type="text" />
-              </label>
-            </div>
-
-            <div class="field-group">
-              <h3>Structure de l’exploitation</h3>
-              <div class="form-grid compact">
-                <label>
-                  <span>Employés</span>
-                  <input name="employees" type="number" min="0" step="1" />
-                </label>
-                <label>
-                  <span>Managers</span>
-                  <input name="managers" type="number" min="0" step="1" />
-                </label>
-                <label>
-                  <span>Frigos</span>
-                  <input name="fridges" type="number" min="0" step="1" />
-                </label>
-                <label>
-                  <span>Congélateurs</span>
-                  <input name="freezers" type="number" min="0" step="1" />
-                </label>
-                <label>
-                  <span>Chambres froides</span>
-                  <input name="coldRooms" type="number" min="0" step="1" />
-                </label>
-                <label>
-                  <span>Zones de stockage</span>
-                  <input name="stockZones" type="number" min="0" step="1" />
-                </label>
-                <label>
-                  <span>Imprimantes</span>
-                  <input name="printersCount" type="number" min="0" step="1" />
-                </label>
-                <label>
-                  <span>Sondes température</span>
-                  <input name="probes" type="number" min="0" step="1" />
-                </label>
+            <section class="wizard-panel" data-step-panel="1">
+              <div class="field-group">
+                <h3>Identité</h3>
+                <div class="form-grid">
+                  <label>
+                    <span>Nom de la société</span>
+                    <input name="companyName" type="text" />
+                  </label>
+                  <label>
+                    <span>Nom du restaurant</span>
+                    <input name="restaurantName" type="text" />
+                  </label>
+                  <label>
+                    <span>Email de contact</span>
+                    <input name="contactEmail" type="email" />
+                  </label>
+                  <label>
+                    <span>Adresse</span>
+                    <input name="address" type="text" />
+                  </label>
+                  <label>
+                    <span>Ville</span>
+                    <input name="city" type="text" />
+                  </label>
+                  <label>
+                    <span>Fuseau horaire</span>
+                    <input name="timezone" type="text" />
+                  </label>
+                  <label>
+                    <span>Horaires d'ouverture</span>
+                    <input name="openingHours" type="text" />
+                  </label>
+                  <label>
+                    <span>Devise</span>
+                    <input name="currency" type="text" />
+                  </label>
+                  <label>
+                    <span>TVA</span>
+                    <input name="vatRate" type="number" step="0.01" />
+                  </label>
+                  <label>
+                    <span>Restaurant ID</span>
+                    <input name="restaurantId" type="text" readonly />
+                  </label>
+                </div>
               </div>
-            </div>
+            </section>
 
-            <div class="field-group">
-              <h3>Modules activés</h3>
-              <div class="chips" id="module-switches"></div>
-            </div>
-
-            <div class="field-group">
-              <h3>HACCP</h3>
-              <div class="form-grid compact">
-                <label>
-                  <span>Température froid positif</span>
-                  <input name="coldMin" type="text" />
-                </label>
-                <label>
-                  <span>Température froid positif max</span>
-                  <input name="coldMax" type="text" />
-                </label>
-                <label>
-                  <span>Température chaud min</span>
-                  <input name="hotMin" type="text" />
-                </label>
-                <label>
-                  <span>Seuil conformité</span>
-                  <input name="haccpThreshold" type="number" step="1" />
-                </label>
+            <section class="wizard-panel" data-step-panel="2">
+              <div class="field-group">
+                <h3>Structure de l’exploitation</h3>
+                <div class="form-grid compact">
+                  <label>
+                    <span>Employés</span>
+                    <input name="employees" type="number" min="0" step="1" />
+                  </label>
+                  <label>
+                    <span>Managers</span>
+                    <input name="managers" type="number" min="0" step="1" />
+                  </label>
+                  <label>
+                    <span>Frigos</span>
+                    <input name="fridges" type="number" min="0" step="1" />
+                  </label>
+                  <label>
+                    <span>Congélateurs</span>
+                    <input name="freezers" type="number" min="0" step="1" />
+                  </label>
+                  <label>
+                    <span>Chambres froides</span>
+                    <input name="coldRooms" type="number" min="0" step="1" />
+                  </label>
+                  <label>
+                    <span>Zones de stockage</span>
+                    <input name="stockZones" type="number" min="0" step="1" />
+                  </label>
+                  <label>
+                    <span>Imprimantes</span>
+                    <input name="printersCount" type="number" min="0" step="1" />
+                  </label>
+                  <label>
+                    <span>Sondes température</span>
+                    <input name="probes" type="number" min="0" step="1" />
+                  </label>
+                </div>
               </div>
-            </div>
-
-            <div class="field-group">
-              <h3>Stock et recettes</h3>
-              <div class="form-grid compact">
-                <label>
-                  <span>Seuil de réapprovisionnement</span>
-                  <input name="reorderThreshold" type="number" step="1" />
-                </label>
-                <label>
-                  <span>Food cost cible</span>
-                  <input name="targetFoodCost" type="number" step="0.01" />
-                </label>
-                <label>
-                  <span>Marge cible</span>
-                  <input name="targetMargin" type="number" step="0.01" />
-                </label>
-                <label>
-                  <span>Unité par défaut</span>
-                  <input name="defaultUnit" type="text" />
-                </label>
+              <div class="field-group">
+                <h3>Accès et sites</h3>
+                <div class="form-grid compact">
+                  <label>
+                    <span>Rôle principal</span>
+                    <select name="ownerRole">
+                      <option value="OWNER">Owner</option>
+                      <option value="MANAGER">Manager</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Objectif</span>
+                    <input name="objective" type="text" />
+                  </label>
+                  <label>
+                    <span>Utilisateurs</span>
+                    <input name="seats" type="number" min="1" step="1" />
+                  </label>
+                  <label>
+                    <span>Restaurants</span>
+                    <input name="sites" type="number" min="1" step="1" />
+                  </label>
+                </div>
               </div>
-            </div>
+            </section>
 
-            <div class="field-group">
-              <h3>OCR et intégrations</h3>
-              <div class="form-grid compact">
-                <label>
-                  <span>Mode OCR</span>
-                  <select name="ocrMode">
-                    <option value="local">Local</option>
-                    <option value="hybrid">Hybride</option>
-                    <option value="ia">IA</option>
-                  </select>
-                </label>
-                <label>
-                  <span>Seuil confiance</span>
-                  <input name="ocrThreshold" type="number" step="0.01" />
-                </label>
-                <label>
-                  <span>API L'Addition</span>
-                  <input name="additionUrl" type="text" />
-                </label>
-                <label>
-                  <span>Imprimante étiquettes</span>
-                  <input name="printer" type="text" />
-                </label>
+            <section class="wizard-panel" data-step-panel="3">
+              <div class="field-group">
+                <h3>Modules activés</h3>
+                <p class="muted">Le système peut recommander les modules en fonction de la taille et des besoins du restaurant.</p>
+                <div class="chips" id="module-switches"></div>
               </div>
-            </div>
+            </section>
 
-            <div class="field-group">
-              <h3>Impression</h3>
-              <div class="form-grid compact">
-                <label>
-                  <span>Type imprimante</span>
-                  <select name="printerType">
-                    <option value="browser">Navigateur</option>
-                    <option value="network">Réseau</option>
-                    <option value="escpos">ESC/POS</option>
-                    <option value="label">Étiquette</option>
-                  </select>
-                </label>
-                <label>
-                  <span>Format étiquette</span>
-                  <input name="labelFormat" type="text" />
-                </label>
-                <label>
-                  <span>Adresse IP</span>
-                  <input name="printerIp" type="text" />
-                </label>
-                <label>
-                  <span>Restaurant ID</span>
-                  <input name="restaurantId" type="text" readonly />
-                </label>
+            <section class="wizard-panel" data-step-panel="4">
+              <div class="field-group">
+                <h3>HACCP</h3>
+                <div class="form-grid compact">
+                  <label>
+                    <span>Température froid positif</span>
+                    <input name="coldMin" type="text" />
+                  </label>
+                  <label>
+                    <span>Température froid positif max</span>
+                    <input name="coldMax" type="text" />
+                  </label>
+                  <label>
+                    <span>Température chaud min</span>
+                    <input name="hotMin" type="text" />
+                  </label>
+                  <label>
+                    <span>Seuil conformité</span>
+                    <input name="haccpThreshold" type="number" step="1" />
+                  </label>
+                </div>
               </div>
-            </div>
+
+              <div class="field-group">
+                <h3>Stock et recettes</h3>
+                <div class="form-grid compact">
+                  <label>
+                    <span>Seuil de réapprovisionnement</span>
+                    <input name="reorderThreshold" type="number" step="1" />
+                  </label>
+                  <label>
+                    <span>Food cost cible</span>
+                    <input name="targetFoodCost" type="number" step="0.01" />
+                  </label>
+                  <label>
+                    <span>Marge cible</span>
+                    <input name="targetMargin" type="number" step="0.01" />
+                  </label>
+                  <label>
+                    <span>Unité par défaut</span>
+                    <input name="defaultUnit" type="text" />
+                  </label>
+                </div>
+              </div>
+
+              <div class="field-group">
+                <h3>OCR et intégrations</h3>
+                <div class="form-grid compact">
+                  <label>
+                    <span>Mode OCR</span>
+                    <select name="ocrMode">
+                      <option value="local">Local</option>
+                      <option value="hybrid">Hybride</option>
+                      <option value="ia">IA</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Seuil confiance</span>
+                    <input name="ocrThreshold" type="number" step="0.01" />
+                  </label>
+                  <label>
+                    <span>API L'Addition</span>
+                    <input name="additionUrl" type="text" />
+                  </label>
+                  <label>
+                    <span>Imprimante étiquettes</span>
+                    <input name="printer" type="text" />
+                  </label>
+                </div>
+              </div>
+
+              <div class="field-group">
+                <h3>Impression</h3>
+                <div class="form-grid compact">
+                  <label>
+                    <span>Type imprimante</span>
+                    <select name="printerType">
+                      <option value="browser">Navigateur</option>
+                      <option value="network">Réseau</option>
+                      <option value="escpos">ESC/POS</option>
+                      <option value="label">Étiquette</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Format étiquette</span>
+                    <input name="labelFormat" type="text" />
+                  </label>
+                  <label>
+                    <span>Adresse IP</span>
+                    <input name="printerIp" type="text" />
+                  </label>
+                </div>
+              </div>
+            </section>
+
+            <section class="wizard-panel" data-step-panel="5">
+              <div class="field-group">
+                <h3>Révision finale</h3>
+                <p class="muted">Vérifie les paramètres, les quantités et les recommandations avant de générer l’instance.</p>
+                <div class="review-grid">
+                  <div>
+                    <span>Restaurant</span>
+                    <strong id="review-restaurant"></strong>
+                  </div>
+                  <div>
+                    <span>Équipe</span>
+                    <strong id="review-team"></strong>
+                  </div>
+                  <div>
+                    <span>Équipements</span>
+                    <strong id="review-equipment"></strong>
+                  </div>
+                  <div>
+                    <span>Modules</span>
+                    <strong id="review-modules"></strong>
+                  </div>
+                </div>
+                <div class="wizard-actions">
+                  <a class="btn primary" href="#activation">Générer l'instance</a>
+                  <button class="btn secondary" type="button" id="export-config-inline">Exporter la configuration</button>
+                </div>
+              </div>
+            </section>
           </form>
 
           <aside class="preview panel">

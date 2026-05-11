@@ -4,11 +4,13 @@ const defaultConfig = {
   plan: "pro",
   companyName: "RestoManager",
   restaurantName: "Chez Thérèse et Denise",
+  contactEmail: "",
   address: "",
   city: "Nantes",
   currency: "EUR",
   vatRate: 10,
   timezone: "Europe/Paris",
+  openingHours: "Lun-Jeu 12:00-14:00 / 19:00-22:00, Ven-Sam 12:00-14:30 / 19:00-22:30",
   restaurantId: "resto_001",
   modules: {
     invoices: true,
@@ -62,6 +64,9 @@ const defaultConfig = {
     seats: "40",
     sites: "1",
   },
+  wizard: {
+    step: 1,
+  },
   trust: {
     encryption: true,
     backups: true,
@@ -93,6 +98,13 @@ const moduleLabels = {
 
 const form = document.getElementById("restaurant-form");
 const summaryList = document.getElementById("commercial-summary");
+const wizardStepButtons = document.querySelectorAll("[data-wizard-step]");
+const wizardPanels = document.querySelectorAll("[data-step-panel]");
+const wizardRecommendations = document.getElementById("wizard-recommendations");
+const wizardProgress = document.getElementById("wizard-progress");
+const wizardLabel = document.getElementById("wizard-label");
+const wizardHint = document.getElementById("wizard-hint");
+const presetButtons = document.querySelectorAll("[data-preset]");
 const moduleSwitches = document.getElementById("module-switches");
 const configJson = document.getElementById("config-json");
 const previewName = document.getElementById("preview-name");
@@ -121,8 +133,13 @@ const generateInstanceButton = document.getElementById("generate-instance");
 const downloadInstanceButton = document.getElementById("download-instance");
 const saveButton = document.getElementById("save-config");
 const exportButton = document.getElementById("export-config");
+const exportButtonInline = document.getElementById("export-config-inline");
 const resetButton = document.getElementById("reset-config");
 const copyButton = document.getElementById("copy-summary");
+const reviewRestaurant = document.getElementById("review-restaurant");
+const reviewTeam = document.getElementById("review-team");
+const reviewEquipment = document.getElementById("review-equipment");
+const reviewModules = document.getElementById("review-modules");
 
 let state = loadConfig();
 
@@ -160,13 +177,20 @@ function computeModulesCount() {
 }
 
 function updateFormFromState() {
+  form.companyName.value = state.companyName;
   form.restaurantName.value = state.restaurantName;
+  form.contactEmail.value = state.contactEmail;
   form.address.value = state.address;
   form.city.value = state.city;
   form.currency.value = state.currency;
   form.vatRate.value = state.vatRate;
   form.timezone.value = state.timezone;
+  form.openingHours.value = state.openingHours;
   form.restaurantId.value = state.restaurantId;
+  form.ownerRole.value = state.onboarding.role;
+  form.objective.value = state.onboarding.objective;
+  form.seats.value = state.onboarding.seats;
+  form.sites.value = state.onboarding.sites;
   form.coldMin.value = state.haccp.coldMin;
   form.coldMax.value = state.haccp.coldMax;
   form.hotMin.value = state.haccp.hotMin;
@@ -193,13 +217,20 @@ function updateFormFromState() {
 }
 
 function updateStateFromForm() {
+  state.companyName = form.companyName.value.trim() || state.companyName;
   state.restaurantName = form.restaurantName.value.trim();
+  state.contactEmail = form.contactEmail.value.trim();
   state.address = form.address.value.trim();
   state.city = form.city.value.trim();
   state.currency = form.currency.value.trim() || "EUR";
   state.vatRate = Number(form.vatRate.value || 0);
   state.timezone = form.timezone.value.trim() || "Europe/Paris";
+  state.openingHours = form.openingHours.value.trim();
   state.restaurantId = form.restaurantId.value.trim() || state.restaurantId;
+  state.onboarding.role = form.ownerRole.value;
+  state.onboarding.objective = form.objective.value.trim();
+  state.onboarding.seats = String(Number(form.seats.value || 0) || 1);
+  state.onboarding.sites = String(Number(form.sites.value || 0) || 1);
   state.haccp.coldMin = form.coldMin.value.trim();
   state.haccp.coldMax = form.coldMax.value.trim();
   state.haccp.hotMin = form.hotMin.value.trim();
@@ -223,6 +254,150 @@ function updateStateFromForm() {
   state.structure.stockZones = Number(form.stockZones.value || 0);
   state.structure.printers = Number(form.printersCount.value || 0);
   state.structure.probes = Number(form.probes.value || 0);
+}
+
+function setWizardStep(step) {
+  state.wizard.step = Number(step) || 1;
+  renderAll();
+  saveConfig();
+}
+
+function getWizardRecommendations() {
+  const recommendations = [];
+  if (state.structure.employees > 1) recommendations.push("Activer planning et badgeuse");
+  if (state.structure.fridges + state.structure.freezers + state.structure.coldRooms > 0) recommendations.push("Conserver HACCP et températures");
+  if (state.structure.stockZones > 0) recommendations.push("Activer stock et inventaires");
+  if (state.structure.printers > 0) recommendations.push("Préparer impression étiquettes");
+  if (state.modules.production) recommendations.push("Préparer la production labo");
+  if (state.modules.orders) recommendations.push("Automatiser les commandes fournisseurs");
+  if (state.onboarding.sites && Number(state.onboarding.sites) > 1) recommendations.push("Préparer le mode multi-restaurants");
+  if (!state.contactEmail) recommendations.push("Ajouter un email de contact du restaurant");
+  if (!state.openingHours) recommendations.push("Renseigner les horaires d'ouverture");
+  return recommendations.slice(0, 6);
+}
+
+function renderWizard() {
+  const activeStep = Number(state.wizard.step || 1);
+  const totalSteps = wizardStepButtons.length || 1;
+  wizardStepButtons.forEach((button) => {
+    const step = Number(button.dataset.wizardStep);
+    button.classList.toggle("active", step === activeStep);
+    button.setAttribute("aria-current", step === activeStep ? "step" : "false");
+  });
+  wizardPanels.forEach((panel) => {
+    const step = Number(panel.dataset.stepPanel);
+    panel.hidden = step !== activeStep;
+  });
+  if (wizardProgress) {
+    wizardProgress.style.width = `${(activeStep / totalSteps) * 100}%`;
+  }
+  if (wizardLabel) {
+    const labels = {
+      1: "Identité et contexte",
+      2: "Dimensionnement de l'exploitation",
+      3: "Modules et usages",
+      4: "HACCP, stock et périphériques",
+      5: "Révision finale",
+    };
+    wizardLabel.textContent = labels[activeStep] || labels[1];
+  }
+  if (wizardHint) {
+    wizardHint.textContent = `${activeStep}/${totalSteps} étapes pour préparer le restaurant avant activation`;
+  }
+  if (wizardRecommendations) {
+    const recommendations = getWizardRecommendations();
+    wizardRecommendations.innerHTML = recommendations.length
+      ? recommendations.map((item) => `<li>${item}</li>`).join("")
+      : "<li>Aucune recommandation supplémentaire</li>";
+  }
+}
+
+function applyPreset(preset) {
+  const presets = {
+    bistrot: {
+      structure: {
+        employees: 8,
+        managers: 1,
+        fridges: 2,
+        freezers: 1,
+        coldRooms: 0,
+        stockZones: 3,
+        printers: 2,
+        probes: 3,
+      },
+      modules: {
+        invoices: true,
+        stock: true,
+        recipes: true,
+        haccp: true,
+        planning: true,
+        timeClock: true,
+        analytics: false,
+        labels: true,
+        production: false,
+        orders: false,
+        integrations: false,
+      },
+    },
+    gastro: {
+      structure: {
+        employees: 18,
+        managers: 3,
+        fridges: 4,
+        freezers: 2,
+        coldRooms: 1,
+        stockZones: 5,
+        printers: 3,
+        probes: 6,
+      },
+      modules: {
+        invoices: true,
+        stock: true,
+        recipes: true,
+        haccp: true,
+        planning: true,
+        timeClock: true,
+        analytics: true,
+        labels: true,
+        production: true,
+        orders: true,
+        integrations: true,
+      },
+    },
+    groupe: {
+      structure: {
+        employees: 40,
+        managers: 6,
+        fridges: 8,
+        freezers: 4,
+        coldRooms: 3,
+        stockZones: 8,
+        printers: 5,
+        probes: 10,
+      },
+      modules: {
+        invoices: true,
+        stock: true,
+        recipes: true,
+        haccp: true,
+        planning: true,
+        timeClock: true,
+        analytics: true,
+        labels: true,
+        production: true,
+        orders: true,
+        integrations: true,
+      },
+    },
+  };
+  const presetConfig = presets[preset];
+  if (!presetConfig) return;
+  state.structure = { ...state.structure, ...presetConfig.structure };
+  state.modules = { ...state.modules, ...presetConfig.modules };
+  state.onboarding.sites = preset === "groupe" ? "3" : "1";
+  state.plan = preset === "groupe" ? "group" : preset === "gastro" ? "pro" : "starter";
+  renderAll();
+  saveConfig();
 }
 
 function renderModules() {
@@ -264,6 +439,18 @@ function renderPreview() {
   previewActivation.textContent = state.activation.status;
   previewStructure.textContent = `${state.structure.employees} pers. · ${state.structure.fridges} frigos · ${state.structure.stockZones} zones`;
   configJson.textContent = JSON.stringify(state, null, 2);
+  if (reviewRestaurant) {
+    reviewRestaurant.textContent = `${state.restaurantName || "Restaurant"} · ${state.city || "ville à définir"}`;
+  }
+  if (reviewTeam) {
+    reviewTeam.textContent = `${state.structure.employees} employés / ${state.structure.managers} managers`;
+  }
+  if (reviewEquipment) {
+    reviewEquipment.textContent = `${state.structure.fridges} frigos / ${state.structure.freezers} congélateurs`;
+  }
+  if (reviewModules) {
+    reviewModules.textContent = `${computeModulesCount()} modules actifs`;
+  }
 }
 
 function renderBlueprint() {
@@ -337,6 +524,7 @@ function renderActivation() {
   activationChecklist.innerHTML = [
     "Compte restaurant créé",
     "Modules configurés",
+    "Horaires et identité validés",
     "HACCP et stock paramétrés",
     "Impression et OCR testés",
     "Pack Docker prêt",
@@ -349,10 +537,13 @@ function renderActivation() {
 function buildActivationPack() {
   return {
     restaurant: {
+      companyName: state.companyName,
       name: state.restaurantName,
+      contactEmail: state.contactEmail,
       address: state.address,
       city: state.city,
       timezone: state.timezone,
+      openingHours: state.openingHours,
       vatRate: state.vatRate,
       restaurantId: state.restaurantId,
     },
@@ -360,6 +551,7 @@ function buildActivationPack() {
       plan: state.plan,
       mode: "self-service",
     },
+    onboarding: state.onboarding,
     modules: state.modules,
     haccp: state.haccp,
     stock: state.stock,
@@ -392,6 +584,7 @@ function renderAll() {
   renderModules();
   renderSummary();
   renderBlueprint();
+  renderWizard();
   renderPreview();
   renderTrustCenter();
   renderActivation();
@@ -419,6 +612,7 @@ function copySummary() {
     `Pack: ${state.plan}`,
     `Modules actifs: ${computeModulesCount()}`,
     `Structure: ${state.structure.employees} employés / ${state.structure.fridges} frigos`,
+    `Horaires: ${state.openingHours || "à configurer"}`,
     `HACCP: ${state.haccp.coldMin} / ${state.haccp.coldMax}`,
     `OCR: ${state.ocr.mode} (${state.ocr.threshold})`,
     `Impression: ${state.printers.type} / ${state.printers.format}`,
@@ -431,6 +625,14 @@ form.addEventListener("input", () => {
   renderAll();
 });
 
+wizardStepButtons.forEach((button) => {
+  button.addEventListener("click", () => setWizardStep(button.dataset.wizardStep));
+});
+
+presetButtons.forEach((button) => {
+  button.addEventListener("click", () => applyPreset(button.dataset.preset));
+});
+
 saveButton.addEventListener("click", () => {
   updateStateFromForm();
   saveConfig();
@@ -440,6 +642,7 @@ saveButton.addEventListener("click", () => {
 });
 
 exportButton.addEventListener("click", downloadJson);
+exportButtonInline?.addEventListener("click", downloadJson);
 resetButton.addEventListener("click", resetConfig);
 copyButton.addEventListener("click", copySummary);
 generateInstanceButton.addEventListener("click", () => {
