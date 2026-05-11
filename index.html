@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RestoManager - Vente et configuration autonome</title>
+    <title>RestoManager - Mise à disposition et configuration autonome</title>
     <meta
       name="description"
       content="Logiciel restaurant premium pour stock, factures, HACCP, planning et analytics. Configuration autonome par restaurant."
@@ -17,16 +17,14 @@
         <div class="brand-mark">RM</div>
         <div>
           <p class="eyebrow">RestoManager</p>
-          <h1>Vente du logiciel + configuration autonome par restaurant</h1>
+          <h1>Mise à disposition du logiciel + configuration autonome par restaurant</h1>
         </div>
       </div>
       <nav class="topnav">
         <a href="#onboarding">Onboarding</a>
-        <a href="#tarifs">Tarifs</a>
         <a href="#config">Configurateur</a>
         <a href="#activation">Activation</a>
         <a href="#trust">Confiance</a>
-        <a href="#quote">Devis</a>
         <a href="#dossier">Dossier</a>
       </nav>
     </header>
@@ -35,18 +33,18 @@
       <section class="hero panel">
         <div class="hero-copy">
           <p class="eyebrow">SaaS restaurant</p>
-          <h2>Une base propre, claire et vendable.</h2>
+          <h2>Une base propre, claire et prête à déployer.</h2>
           <p>
             Chaque restaurant peut se paramétrer seul: identité, modules, HACCP, stock, OCR, intégrations et impression.
-            Le client comprend ce qu'il achète, et le produit reste simple à déployer.
+            Le client comprend ce qu'il obtient, et le produit reste simple à déployer.
           </p>
           <div class="hero-actions">
             <a class="btn primary" href="#config">Configurer un restaurant</a>
-            <a class="btn secondary" href="#tarifs">Voir les offres</a>
+            <a class="btn secondary" href="#activation">Préparer l'instance</a>
           </div>
         </div>
         <div class="hero-card">
-          <p class="eyebrow">Résumé commercial</p>
+          <p class="eyebrow">Résumé de configuration</p>
           <ul id="commercial-summary" class="summary-list"></ul>
         </div>
       </section>
@@ -56,7 +54,7 @@
           <div>
             <p class="eyebrow">Onboarding autonome</p>
             <h2>Le restaurant se configure seul</h2>
-            <p>Le parcours guide le client, puis lui propose directement les bons réglages et le bon forfait.</p>
+            <p>Le parcours guide le client, puis lui propose directement les bons réglages et le bon pack fonctionnel.</p>
           </div>
         </div>
         <div class="onboarding-grid">
@@ -78,45 +76,9 @@
           <article class="step-card">
             <span>4</span>
             <h3>Exporter le dossier</h3>
-            <p>Résumé de configuration, devis, checklist, PDF d’offre et pack de livraison.</p>
+            <p>Résumé de configuration, checklist, pack de livraison et fichier d’activation.</p>
           </article>
         </div>
-      </section>
-
-      <section id="tarifs" class="pricing-grid">
-        <article class="panel price-card" data-plan="starter">
-          <p class="eyebrow">Starter</p>
-          <h3>1 restaurant</h3>
-          <p class="price">79€ <span>/ mois</span></p>
-          <ul>
-            <li>Stock, factures, recettes, HACCP, planning</li>
-            <li>Support email</li>
-            <li>Configuration autonome</li>
-          </ul>
-          <button class="btn secondary select-plan" data-select-plan="starter">Choisir Starter</button>
-        </article>
-        <article class="panel price-card featured" data-plan="pro">
-          <p class="eyebrow">Pro</p>
-          <h3>Restaurant avancé</h3>
-          <p class="price">149€ <span>/ mois</span></p>
-          <ul>
-            <li>OCR, analytics, alertes prix</li>
-            <li>Étiquettes et production</li>
-            <li>Support prioritaire</li>
-          </ul>
-          <button class="btn primary select-plan" data-select-plan="pro">Choisir Pro</button>
-        </article>
-        <article class="panel price-card" data-plan="group">
-          <p class="eyebrow">Groupe</p>
-          <h3>Multi-restaurants</h3>
-          <p class="price">249€ <span>/ mois</span></p>
-          <ul>
-            <li>Permissions par rôle</li>
-            <li>Reporting partagé</li>
-            <li>Onboarding inclus</li>
-          </ul>
-          <button class="btn secondary select-plan" data-select-plan="group">Choisir Groupe</button>
-        </article>
       </section>
 
       <section id="config" class="panel configurator">
@@ -270,10 +232,10 @@
             <h3 id="preview-name"></h3>
             <p id="preview-location" class="muted"></p>
             <div class="preview-metrics">
-              <div><span>Forfait</span><strong id="preview-plan"></strong></div>
-              <div><span>Mensuel</span><strong id="preview-price"></strong></div>
+              <div><span>Pack</span><strong id="preview-plan"></strong></div>
               <div><span>Modules actifs</span><strong id="preview-modules"></strong></div>
               <div><span>Conformité</span><strong id="preview-haccp"></strong></div>
+              <div><span>Activation</span><strong id="preview-activation"></strong></div>
             </div>
             <div class="preview-block">
               <h4>Résumé de configuration</h4>
@@ -309,7 +271,7 @@
         <div class="activation-layout">
           <div class="activation-card">
             <h3>Instance client</h3>
-            <p class="muted">Sous-domaine, accès, forfait, modules et état du déploiement.</p>
+            <p class="muted">Sous-domaine, accès, modules et état du déploiement.</p>
             <div class="activation-hero">
               <div>
                 <span>Restaurant</span>
@@ -340,29 +302,15 @@
         </div>
       </section>
 
-      <section id="quote" class="panel quote">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">Devis</p>
-            <h2>Générer un devis lisible</h2>
-            <p>Le client peut imprimer ou envoyer un récapitulatif commercial avec forfait, options et configuration choisie.</p>
-          </div>
-          <div class="quote-actions">
-            <button class="btn primary" id="download-quote">Télécharger le devis</button>
-            <button class="btn secondary" id="copy-quote">Copier le devis</button>
-          </div>
-        </div>
-        <div class="quote-box" id="quote-box"></div>
-      </section>
-
       <section id="dossier" class="panel dossier">
         <div>
-          <p class="eyebrow">Dossier de vente</p>
-          <h2>Ce qu’un acheteur reçoit</h2>
+          <p class="eyebrow">Dossier de livraison</p>
+          <h2>Ce qu’un restaurant reçoit</h2>
           <ul class="checklist">
             <li>Code source et accès GitHub</li>
             <li>Environnements Docker et variables</li>
-            <li>Pack de démo et offre commerciale</li>
+            <li>Pack de démo et configuration client</li>
+            <li>Pack d’activation client</li>
             <li>Checklist de due diligence</li>
             <li>Guide de livraison client</li>
           </ul>

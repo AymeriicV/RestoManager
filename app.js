@@ -67,20 +67,6 @@ const defaultConfig = {
   },
 };
 
-const planPrices = {
-  starter: 79,
-  pro: 149,
-  group: 249,
-};
-
-const modulePrices = {
-  labels: 12,
-  production: 19,
-  analytics: 29,
-  integrations: 39,
-  orders: 24,
-};
-
 const moduleLabels = {
   invoices: "Factures OCR",
   stock: "Stock",
@@ -102,9 +88,9 @@ const configJson = document.getElementById("config-json");
 const previewName = document.getElementById("preview-name");
 const previewLocation = document.getElementById("preview-location");
 const previewPlan = document.getElementById("preview-plan");
-const previewPrice = document.getElementById("preview-price");
 const previewModules = document.getElementById("preview-modules");
 const previewHaccp = document.getElementById("preview-haccp");
+const previewActivation = document.getElementById("preview-activation");
 const trustGrid = document.getElementById("trust-grid");
 const activationChecklist = document.getElementById("activation-checklist");
 const instanceName = document.getElementById("instance-name");
@@ -114,14 +100,10 @@ const instanceDocker = document.getElementById("instance-docker");
 const instanceHealth = document.getElementById("instance-health");
 const generateInstanceButton = document.getElementById("generate-instance");
 const downloadInstanceButton = document.getElementById("download-instance");
-const quoteBox = document.getElementById("quote-box");
-const downloadQuoteButton = document.getElementById("download-quote");
-const copyQuoteButton = document.getElementById("copy-quote");
 const saveButton = document.getElementById("save-config");
 const exportButton = document.getElementById("export-config");
 const resetButton = document.getElementById("reset-config");
 const copyButton = document.getElementById("copy-summary");
-const selectPlanButtons = document.querySelectorAll("[data-select-plan]");
 
 let state = loadConfig();
 
@@ -154,24 +136,8 @@ function saveConfig() {
   localStorage.setItem(storageKey, JSON.stringify(state, null, 2));
 }
 
-function money(value) {
-  return new Intl.NumberFormat("fr-FR", {
-    style: "currency",
-    currency: state.currency || "EUR",
-    maximumFractionDigits: 0,
-  }).format(value);
-}
-
 function computeModulesCount() {
   return Object.values(state.modules).filter(Boolean).length;
-}
-
-function computeMonthlyPrice() {
-  const base = planPrices[state.plan] ?? planPrices.pro;
-  const addons = Object.entries(state.modules)
-    .filter(([, enabled]) => enabled)
-    .reduce((sum, [key]) => sum + (modulePrices[key] ?? 0), 0);
-  return base + addons;
 }
 
 function updateFormFromState() {
@@ -245,10 +211,8 @@ function renderModules() {
 
 function renderSummary() {
   const items = [
-    `Forfait ${state.plan.toUpperCase()}`,
+    `Pack ${state.plan.toUpperCase()}`,
     `${computeModulesCount()} modules actifs`,
-    `${money(computeMonthlyPrice())} / mois`,
-    `TVA ${state.vatRate}%`,
     `Paramètres enregistrés localement`,
   ];
   summaryList.innerHTML = items.map((item) => `<li>${item}</li>`).join("");
@@ -258,9 +222,9 @@ function renderPreview() {
   previewName.textContent = state.restaurantName || "Restaurant";
   previewLocation.textContent = [state.address, state.city].filter(Boolean).join(" · ") || "Adresse à configurer";
   previewPlan.textContent = state.plan.toUpperCase();
-  previewPrice.textContent = `${money(computeMonthlyPrice())}/mois`;
   previewModules.textContent = `${computeModulesCount()}`;
   previewHaccp.textContent = `${state.haccp.coldMin} / ${state.haccp.coldMax}`;
+  previewActivation.textContent = state.activation.status;
   configJson.textContent = JSON.stringify(state, null, 2);
 }
 
@@ -333,52 +297,6 @@ function renderActivation() {
     .join("");
 }
 
-function buildQuote() {
-  const monthly = computeMonthlyPrice();
-  const setup = state.plan === "group" ? 590 : state.plan === "pro" ? 390 : 190;
-  const addons = Object.entries(state.modules)
-    .filter(([, enabled]) => enabled)
-    .filter(([key]) => modulePrices[key])
-    .map(([key]) => `${moduleLabels[key]}: ${money(modulePrices[key])}`)
-    .join("<br>");
-  quoteBox.innerHTML = `
-    <div class="quote-grid">
-      <div>
-        <p class="eyebrow">Client</p>
-        <h3>${state.restaurantName}</h3>
-        <p class="muted">${[state.address, state.city].filter(Boolean).join(" · ") || "À configurer"}</p>
-      </div>
-      <div>
-        <p class="eyebrow">Forfait</p>
-        <h3>${state.plan.toUpperCase()}</h3>
-        <p class="muted">${money(monthly)} / mois</p>
-      </div>
-      <div>
-        <p class="eyebrow">Frais de mise en service</p>
-        <h3>${money(setup)}</h3>
-        <p class="muted">Paramétrage, import et accompagnement</p>
-      </div>
-      <div>
-        <p class="eyebrow">Modules activés</p>
-        <h3>${computeModulesCount()}</h3>
-        <p class="muted">Base de configuration self-service</p>
-      </div>
-    </div>
-    <div class="quote-details">
-      <div>
-        <strong>Options incluses</strong>
-        <p class="muted">${addons || "Aucune option supplémentaire"}</p>
-      </div>
-      <div>
-        <strong>Résumé métier</strong>
-        <p class="muted">
-          HACCP ${state.haccp.coldMin} à ${state.haccp.coldMax}, objectif food cost ${Math.round(state.stock.targetFoodCost * 100)} %, imprimante ${state.printers.type}.
-        </p>
-      </div>
-    </div>
-  `;
-}
-
 function buildActivationPack() {
   return {
     restaurant: {
@@ -391,8 +309,7 @@ function buildActivationPack() {
     },
     subscription: {
       plan: state.plan,
-      monthlyPrice: computeMonthlyPrice(),
-      setupFee: state.plan === "group" ? 590 : state.plan === "pro" ? 390 : 190,
+      mode: "self-service",
     },
     modules: state.modules,
     haccp: state.haccp,
@@ -427,16 +344,6 @@ function renderAll() {
   renderPreview();
   renderTrustCenter();
   renderActivation();
-  buildQuote();
-  document.querySelectorAll(".price-card").forEach((card) => {
-    card.classList.toggle("featured", card.dataset.plan === state.plan);
-  });
-}
-
-function setPlan(plan) {
-  state.plan = plan;
-  renderAll();
-  saveConfig();
 }
 
 function downloadJson() {
@@ -458,8 +365,7 @@ function resetConfig() {
 function copySummary() {
   const text = [
     `RestoManager - ${state.restaurantName}`,
-    `Forfait: ${state.plan}`,
-    `Prix mensuel estimé: ${money(computeMonthlyPrice())}`,
+    `Pack: ${state.plan}`,
     `Modules actifs: ${computeModulesCount()}`,
     `HACCP: ${state.haccp.coldMin} / ${state.haccp.coldMax}`,
     `OCR: ${state.ocr.mode} (${state.ocr.threshold})`,
@@ -468,38 +374,9 @@ function copySummary() {
   navigator.clipboard.writeText(text);
 }
 
-function quoteText() {
-  return [
-    `RestoManager - Devis`,
-    `Restaurant: ${state.restaurantName}`,
-    `Ville: ${state.city}`,
-    `Forfait: ${state.plan}`,
-    `Mensuel: ${money(computeMonthlyPrice())}`,
-    `Setup: ${money(state.plan === "group" ? 590 : state.plan === "pro" ? 390 : 190)}`,
-    `Modules: ${computeModulesCount()}`,
-    `HACCP: ${state.haccp.coldMin} / ${state.haccp.coldMax}`,
-    `OCR: ${state.ocr.mode} (${state.ocr.threshold})`,
-    `Imprimante: ${state.printers.type} / ${state.printers.format}`,
-  ].join("\n");
-}
-
-function downloadQuote() {
-  const blob = new Blob([quoteText()], { type: "text/plain;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `${(state.restaurantName || "resto").toLowerCase().replace(/\s+/g, "-")}-devis.txt`;
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
 form.addEventListener("input", () => {
   updateStateFromForm();
   renderAll();
-});
-
-selectPlanButtons.forEach((button) => {
-  button.addEventListener("click", () => setPlan(button.dataset.selectPlan));
 });
 
 saveButton.addEventListener("click", () => {
@@ -513,8 +390,6 @@ saveButton.addEventListener("click", () => {
 exportButton.addEventListener("click", downloadJson);
 resetButton.addEventListener("click", resetConfig);
 copyButton.addEventListener("click", copySummary);
-downloadQuoteButton.addEventListener("click", downloadQuote);
-copyQuoteButton.addEventListener("click", () => navigator.clipboard.writeText(quoteText()));
 generateInstanceButton.addEventListener("click", () => {
   state.activation.status = "Validation requise";
   saveConfig();
