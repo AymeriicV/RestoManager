@@ -398,6 +398,8 @@ function renderWizard() {
   wizardStepButtons.forEach((button) => {
     const step = Number(button.dataset.wizardStep);
     button.classList.toggle("active", step === activeStep);
+    button.classList.toggle("completed", step < activeStep);
+    button.disabled = step > activeStep;
     button.setAttribute("aria-current", step === activeStep ? "step" : "false");
   });
   wizardPanels.forEach((panel) => {

@@ -830,9 +830,19 @@ body[data-wizard-started="true"] #wizard {
   box-shadow: 0 12px 24px rgba(32, 59, 63, 0.08);
 }
 
+.wizard-step.completed {
+  border-color: rgba(111, 140, 122, 0.24);
+  background: rgba(111, 140, 122, 0.06);
+}
+
 .wizard-step.active span {
   background: var(--accent);
   color: #fff;
+}
+
+.wizard-step:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
 }
 
 .wizard-progress {
