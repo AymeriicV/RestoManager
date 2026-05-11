@@ -21,442 +21,305 @@
         </div>
       </div>
       <nav class="topnav">
-        <a href="#onboarding">Onboarding</a>
-        <a href="#dimensionnement">Dimensionnement</a>
-        <a href="#config">Configurateur</a>
-        <a href="#activation">Activation</a>
-        <a href="#trust">Confiance</a>
-        <a href="#dossier">Dossier</a>
+        <a href="#hero">Bienvenue</a>
+        <a href="#wizard">Configuration</a>
       </nav>
     </header>
 
     <main class="page">
-      <section class="hero panel">
+      <section id="hero" class="hero panel hero-premium">
         <div class="hero-copy">
-          <p class="eyebrow">SaaS restaurant</p>
-          <h2>Une base propre, claire et prête à déployer.</h2>
+          <p class="eyebrow">RestoManager</p>
+          <h2>Configurez votre restaurant étape par étape.</h2>
           <p>
-            Chaque restaurant peut se paramétrer seul: identité, modules, HACCP, stock, OCR, intégrations et impression.
-            Le client comprend ce qu'il obtient, et le produit reste simple à déployer.
+            Un onboarding clair, moderne et guidé pour préparer votre espace de travail avant activation.
+            Identité, équipe, stock, HACCP, impression et modules se configurent en quelques étapes.
           </p>
           <div class="hero-actions">
-            <a class="btn primary" href="#config">Configurer un restaurant</a>
-            <a class="btn secondary" href="#activation">Préparer l'instance</a>
+            <button class="btn primary" id="start-config" type="button">Commencer la configuration</button>
+            <a class="btn secondary" href="#wizard">Voir l'aperçu</a>
           </div>
-        </div>
-        <div class="hero-card">
-          <p class="eyebrow">Résumé de configuration</p>
-          <ul id="commercial-summary" class="summary-list"></ul>
-        </div>
-      </section>
-
-      <section id="onboarding" class="panel onboarding">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">Onboarding autonome</p>
-            <h2>Le restaurant se configure seul</h2>
-            <p>Le parcours guide le client, puis lui propose directement les bons réglages et le bon pack fonctionnel.</p>
-          </div>
-        </div>
-        <div class="onboarding-grid">
-          <article class="step-card">
-            <span>1</span>
-            <h3>Définir le restaurant</h3>
-            <p>Nom, adresse, devise, TVA, fuseau horaire, couverture multi-sites.</p>
-          </article>
-          <article class="step-card">
-            <span>2</span>
-            <h3>Activer les modules</h3>
-            <p>Stock, recettes, HACCP, planning, badgeuse, production, analytics, intégrations.</p>
-          </article>
-          <article class="step-card">
-            <span>3</span>
-            <h3>Choisir la politique d’usage</h3>
-            <p>Mode OCR, seuils stock, food cost cible, marge cible, imprimantes et alertes.</p>
-          </article>
-          <article class="step-card">
-            <span>4</span>
-            <h3>Exporter le dossier</h3>
-            <p>Résumé de configuration, checklist, pack de livraison et fichier d’activation.</p>
-          </article>
-        </div>
-      </section>
-
-      <section id="dimensionnement" class="panel blueprint">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">Dimensionnement</p>
-            <h2>Préparer l'exploitation avant l’activation</h2>
-            <p>Le restaurant renseigne ses volumes réels avant de générer son instance. Les modules s’adaptent ensuite à la taille du site.</p>
-          </div>
-        </div>
-        <div class="blueprint-grid">
-          <article class="blueprint-card">
-            <div class="blueprint-head">
-              <span>01</span>
-              <h3>Équipe</h3>
-            </div>
-            <p>Cadrez les accès et les besoins quotidiens avant la création de l’espace.</p>
-            <div class="blueprint-stats">
-              <div><span>Employés</span><strong id="blueprint-employees"></strong></div>
-              <div><span>Managers</span><strong id="blueprint-managers"></strong></div>
-            </div>
-          </article>
-          <article class="blueprint-card">
-            <div class="blueprint-head">
-              <span>02</span>
-              <h3>Froid et stockage</h3>
-            </div>
-            <p>Dimensionnez les équipements pour HACCP, réception et suivi des stocks.</p>
-            <div class="blueprint-stats">
-              <div><span>Frigos</span><strong id="blueprint-fridges"></strong></div>
-              <div><span>Congélateurs</span><strong id="blueprint-freezers"></strong></div>
-              <div><span>Chambres froides</span><strong id="blueprint-coldrooms"></strong></div>
-              <div><span>Zones stockage</span><strong id="blueprint-stockzones"></strong></div>
-            </div>
-          </article>
-          <article class="blueprint-card">
-            <div class="blueprint-head">
-              <span>03</span>
-              <h3>Impression et contrôle</h3>
-            </div>
-            <p>Préparez les périphériques pour étiquettes, cuisine et suivi HACCP.</p>
-            <div class="blueprint-stats">
-              <div><span>Imprimantes</span><strong id="blueprint-printers"></strong></div>
-              <div><span>Sondes</span><strong id="blueprint-probes"></strong></div>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section id="config" class="panel configurator">
-        <div class="config-head">
-          <div>
-            <p class="eyebrow">Configurateur autonome</p>
-            <h2>Paramètres du restaurant</h2>
-            <p>Le client peut adapter le logiciel à son exploitation sans dépendre d'une intervention technique.</p>
-          </div>
-          <div class="config-actions">
-            <button class="btn secondary" id="save-config">Sauvegarder</button>
-            <button class="btn secondary" id="export-config">Exporter JSON</button>
-            <button class="btn ghost" id="reset-config">Réinitialiser</button>
-          </div>
-        </div>
-
-        <div class="wizard-bar panel">
-          <div class="wizard-top">
+          <div class="hero-micro">
             <div>
-              <p class="eyebrow">Assistant de configuration</p>
-              <h3 id="wizard-label"></h3>
-              <p id="wizard-hint" class="muted"></p>
+              <span>Étapes</span>
+              <strong>8</strong>
             </div>
-            <div class="wizard-presets">
-              <button class="btn secondary preset-btn" type="button" data-preset="bistrot">Bistrot</button>
-              <button class="btn secondary preset-btn" type="button" data-preset="gastro">Gastro</button>
-              <button class="btn secondary preset-btn" type="button" data-preset="groupe">Groupe</button>
-            </div>
-          </div>
-          <div class="wizard-steps">
-            <button class="wizard-step" type="button" data-wizard-step="1">
-              <span>01</span>
-              <strong>Identité</strong>
-              <small>Base et image</small>
-            </button>
-            <button class="wizard-step" type="button" data-wizard-step="2">
-              <span>02</span>
-              <strong>Exploitation</strong>
-              <small>Équipe et sites</small>
-            </button>
-            <button class="wizard-step" type="button" data-wizard-step="3">
-              <span>03</span>
-              <strong>Modules</strong>
-              <small>Périmètre métier</small>
-            </button>
-            <button class="wizard-step" type="button" data-wizard-step="4">
-              <span>04</span>
-              <strong>Équipements</strong>
-              <small>HACCP et périphériques</small>
-            </button>
-            <button class="wizard-step" type="button" data-wizard-step="5">
-              <span>05</span>
-              <strong>Activation</strong>
-              <small>Préparation finale</small>
-            </button>
-          </div>
-          <div class="wizard-progress"><span id="wizard-progress"></span></div>
-          <div class="wizard-insights">
             <div>
-              <p class="eyebrow">Recommandations</p>
-              <ul id="wizard-recommendations" class="checklist compact"></ul>
+              <span>Temps moyen</span>
+              <strong>5 min</strong>
             </div>
-            <div class="wizard-cards">
-              <article class="wizard-card">
-                <span>Équipe</span>
-                <strong id="blueprint-employees"></strong>
-                <p>Base d'accès et planning</p>
-              </article>
-              <article class="wizard-card">
-                <span>Froid</span>
-                <strong id="blueprint-fridges"></strong>
-                <p>Équipements HACCP</p>
-              </article>
-              <article class="wizard-card">
-                <span>Contrôle</span>
-                <strong id="blueprint-printers"></strong>
-                <p>Impression et étiquettes</p>
-              </article>
+            <div>
+              <span>Sortie</span>
+              <strong>Pack client</strong>
             </div>
           </div>
         </div>
-
-        <div class="config-layout">
-          <form class="config-form" id="restaurant-form">
-            <section class="wizard-panel" data-step-panel="1">
-              <div class="field-group">
-                <h3>Identité</h3>
-                <div class="form-grid">
-                  <label>
-                    <span>Nom de la société</span>
-                    <input name="companyName" type="text" />
-                  </label>
-                  <label>
-                    <span>Nom du restaurant</span>
-                    <input name="restaurantName" type="text" />
-                  </label>
-                  <label>
-                    <span>Email de contact</span>
-                    <input name="contactEmail" type="email" />
-                  </label>
-                  <label>
-                    <span>Adresse</span>
-                    <input name="address" type="text" />
-                  </label>
-                  <label>
-                    <span>Ville</span>
-                    <input name="city" type="text" />
-                  </label>
-                  <label>
-                    <span>Fuseau horaire</span>
-                    <input name="timezone" type="text" />
-                  </label>
-                  <label>
-                    <span>Horaires d'ouverture</span>
-                    <input name="openingHours" type="text" />
-                  </label>
-                  <label>
-                    <span>Devise</span>
-                    <input name="currency" type="text" />
-                  </label>
-                  <label>
-                    <span>TVA</span>
-                    <input name="vatRate" type="number" step="0.01" />
-                  </label>
-                  <label>
-                    <span>Restaurant ID</span>
-                    <input name="restaurantId" type="text" readonly />
-                  </label>
-                </div>
+        <div class="hero-visual panel">
+          <div class="hero-visual-top">
+            <div class="hero-logo-wrap">
+              <img class="brand-logo brand-logo-large" src="./logo.svg" alt="RestoManager" />
+              <div>
+                <p class="eyebrow">SaaS restaurant</p>
+                <strong>RestoManager</strong>
               </div>
-            </section>
-
+            </div>
+            <span class="pill">Onboarding premium</span>
+          </div>
+          <div class="hero-dashboard">
+            <article>
+              <span>Restaurant</span>
+              <strong id="hero-restaurant"></strong>
+            </article>
+            <article>
+              <span>Équipe</span>
+              <strong id="hero-team"></strong>
+            </article>
+            <article>
+              <span>Stock</span>
+              <strong id="hero-stock"></strong>
+            </article>
+            <article>
+              <span>Activation</span>
+              <strong id="hero-activation"></strong>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section id="wizard" class="panel wizard-shell" hidden>
+        <div class="wizard-shell-top">
+          <div>
+            <p class="eyebrow">Assistant de configuration</p>
+            <h2 id="wizard-label"></h2>
+            <p id="wizard-hint" class="muted"></p>
+          </div>
+          <div class="wizard-presets">
+            <button class="btn secondary preset-btn" type="button" data-preset="bistrot">Bistrot</button>
+            <button class="btn secondary preset-btn" type="button" data-preset="gastro">Gastro</button>
+            <button class="btn secondary preset-btn" type="button" data-preset="groupe">Groupe</button>
+          </div>
+        </div>
+        <div class="wizard-progress"><span id="wizard-progress"></span></div>
+        <div class="wizard-steps">
+          <button class="wizard-step" type="button" data-wizard-step="2">
+            <span>02</span>
+            <strong>Restaurant</strong>
+            <small>Identité et horaires</small>
+          </button>
+          <button class="wizard-step" type="button" data-wizard-step="3">
+            <span>03</span>
+            <strong>Équipe</strong>
+            <small>Owner et accès</small>
+          </button>
+          <button class="wizard-step" type="button" data-wizard-step="4">
+            <span>04</span>
+            <strong>Stock</strong>
+            <small>Zones et familles</small>
+          </button>
+          <button class="wizard-step" type="button" data-wizard-step="5">
+            <span>05</span>
+            <strong>HACCP</strong>
+            <small>Relevés et nettoyage</small>
+          </button>
+          <button class="wizard-step" type="button" data-wizard-step="6">
+            <span>06</span>
+            <strong>Impression</strong>
+            <small>Tickets et étiquettes</small>
+          </button>
+          <button class="wizard-step" type="button" data-wizard-step="7">
+            <span>07</span>
+            <strong>Modules</strong>
+            <small>Périmètre métier</small>
+          </button>
+          <button class="wizard-step" type="button" data-wizard-step="8">
+            <span>08</span>
+            <strong>Résumé</strong>
+            <small>Créer mon espace</small>
+          </button>
+        </div>
+        <div class="wizard-panels">
+          <form class="config-form wizard-form" id="restaurant-form">
             <section class="wizard-panel" data-step-panel="2">
-              <div class="field-group">
-                <h3>Structure de l’exploitation</h3>
-                <div class="form-grid compact">
-                  <label>
-                    <span>Employés</span>
-                    <input name="employees" type="number" min="0" step="1" />
-                  </label>
-                  <label>
-                    <span>Managers</span>
-                    <input name="managers" type="number" min="0" step="1" />
-                  </label>
-                  <label>
-                    <span>Frigos</span>
-                    <input name="fridges" type="number" min="0" step="1" />
-                  </label>
-                  <label>
-                    <span>Congélateurs</span>
-                    <input name="freezers" type="number" min="0" step="1" />
-                  </label>
-                  <label>
-                    <span>Chambres froides</span>
-                    <input name="coldRooms" type="number" min="0" step="1" />
-                  </label>
-                  <label>
-                    <span>Zones de stockage</span>
-                    <input name="stockZones" type="number" min="0" step="1" />
-                  </label>
-                  <label>
-                    <span>Imprimantes</span>
-                    <input name="printersCount" type="number" min="0" step="1" />
-                  </label>
-                  <label>
-                    <span>Sondes température</span>
-                    <input name="probes" type="number" min="0" step="1" />
-                  </label>
+              <div class="wizard-step-layout">
+                <div class="wizard-step-copy">
+                  <p class="eyebrow">Étape 2</p>
+                  <h3>Restaurant</h3>
+                  <p>Identité, contact et rythme d'ouverture.</p>
+                  <div class="wizard-side-card">
+                    <span>Conseil</span>
+                    <strong>Renseignez vos services midi et soir pour calibrer planning, HACCP et badgeuse.</strong>
+                  </div>
                 </div>
-              </div>
-              <div class="field-group">
-                <h3>Accès et sites</h3>
-                <div class="form-grid compact">
-                  <label>
-                    <span>Rôle principal</span>
-                    <select name="ownerRole">
-                      <option value="OWNER">Owner</option>
-                      <option value="MANAGER">Manager</option>
-                    </select>
-                  </label>
-                  <label>
-                    <span>Objectif</span>
-                    <input name="objective" type="text" />
-                  </label>
-                  <label>
-                    <span>Utilisateurs</span>
-                    <input name="seats" type="number" min="1" step="1" />
-                  </label>
-                  <label>
-                    <span>Restaurants</span>
-                    <input name="sites" type="number" min="1" step="1" />
-                  </label>
+                <div class="wizard-step-card">
+                  <div class="form-grid">
+                    <label><span>Nom de la société</span><input name="companyName" type="text" /></label>
+                    <label><span>Nom de l'établissement</span><input name="restaurantName" type="text" /></label>
+                    <label><span>Téléphone</span><input name="contactPhone" type="tel" /></label>
+                    <label><span>Email</span><input name="contactEmail" type="email" /></label>
+                    <label><span>Adresse</span><input name="address" type="text" /></label>
+                    <label><span>Ville</span><input name="city" type="text" /></label>
+                    <label><span>Fuseau horaire</span><input name="timezone" type="text" /></label>
+                    <label><span>Horaires d'ouverture</span><input name="openingHours" type="text" /></label>
+                  </div>
+                  <div class="field-group">
+                    <h3>Jours d'ouverture</h3>
+                    <div class="day-chip-grid" id="opening-days"></div>
+                  </div>
+                  <div class="field-group">
+                    <h3>Services</h3>
+                    <div class="service-toggle-grid">
+                      <label class="toggle-card"><input name="serviceLunch" type="checkbox" /><span>Service midi</span></label>
+                      <label class="toggle-card"><input name="serviceDinner" type="checkbox" /><span>Service soir</span></label>
+                    </div>
+                  </div>
                 </div>
               </div>
             </section>
 
             <section class="wizard-panel" data-step-panel="3">
-              <div class="field-group">
-                <h3>Modules activés</h3>
-                <p class="muted">Le système peut recommander les modules en fonction de la taille et des besoins du restaurant.</p>
-                <div class="chips" id="module-switches"></div>
+              <div class="wizard-step-layout">
+                <div class="wizard-step-copy">
+                  <p class="eyebrow">Étape 3</p>
+                  <h3>Équipe</h3>
+                  <p>Dimensionnez vos accès et créez le compte owner.</p>
+                  <div class="wizard-side-card">
+                    <span>Accès</span>
+                    <strong>Le compte owner est prêt pour activer les modules et gérer les équipes.</strong>
+                  </div>
+                </div>
+                <div class="wizard-step-card">
+                  <div class="form-grid">
+                    <label><span>Employés</span><input name="employees" type="number" min="0" step="1" /></label>
+                    <label><span>Managers</span><input name="managers" type="number" min="0" step="1" /></label>
+                    <label><span>Nom owner</span><input name="ownerName" type="text" /></label>
+                    <label><span>Email owner</span><input name="ownerEmail" type="email" /></label>
+                    <label><span>Mot de passe initial</span><input name="ownerPassword" type="text" /></label>
+                    <label><span>Rôle</span><select name="ownerRole"><option value="OWNER">Owner</option><option value="MANAGER">Manager</option></select></label>
+                    <label><span>Objectif</span><input name="objective" type="text" /></label>
+                    <label><span>Nombre de sites</span><input name="sites" type="number" min="1" step="1" /></label>
+                  </div>
+                </div>
               </div>
             </section>
 
             <section class="wizard-panel" data-step-panel="4">
-              <div class="field-group">
-                <h3>HACCP</h3>
-                <div class="form-grid compact">
-                  <label>
-                    <span>Température froid positif</span>
-                    <input name="coldMin" type="text" />
-                  </label>
-                  <label>
-                    <span>Température froid positif max</span>
-                    <input name="coldMax" type="text" />
-                  </label>
-                  <label>
-                    <span>Température chaud min</span>
-                    <input name="hotMin" type="text" />
-                  </label>
-                  <label>
-                    <span>Seuil conformité</span>
-                    <input name="haccpThreshold" type="number" step="1" />
-                  </label>
+              <div class="wizard-step-layout">
+                <div class="wizard-step-copy">
+                  <p class="eyebrow">Étape 4</p>
+                  <h3>Stock & zones</h3>
+                  <p>Préparez les volumes de stockage et les familles produits.</p>
+                  <div class="wizard-side-card">
+                    <span>Recommandation</span>
+                    <strong>Les catégories produits aident les seuils de stock, les achats et les analyses.</strong>
+                  </div>
                 </div>
-              </div>
-
-              <div class="field-group">
-                <h3>Stock et recettes</h3>
-                <div class="form-grid compact">
-                  <label>
-                    <span>Seuil de réapprovisionnement</span>
-                    <input name="reorderThreshold" type="number" step="1" />
-                  </label>
-                  <label>
-                    <span>Food cost cible</span>
-                    <input name="targetFoodCost" type="number" step="0.01" />
-                  </label>
-                  <label>
-                    <span>Marge cible</span>
-                    <input name="targetMargin" type="number" step="0.01" />
-                  </label>
-                  <label>
-                    <span>Unité par défaut</span>
-                    <input name="defaultUnit" type="text" />
-                  </label>
-                </div>
-              </div>
-
-              <div class="field-group">
-                <h3>OCR et intégrations</h3>
-                <div class="form-grid compact">
-                  <label>
-                    <span>Mode OCR</span>
-                    <select name="ocrMode">
-                      <option value="local">Local</option>
-                      <option value="hybrid">Hybride</option>
-                      <option value="ia">IA</option>
-                    </select>
-                  </label>
-                  <label>
-                    <span>Seuil confiance</span>
-                    <input name="ocrThreshold" type="number" step="0.01" />
-                  </label>
-                  <label>
-                    <span>API L'Addition</span>
-                    <input name="additionUrl" type="text" />
-                  </label>
-                  <label>
-                    <span>Imprimante étiquettes</span>
-                    <input name="printer" type="text" />
-                  </label>
-                </div>
-              </div>
-
-              <div class="field-group">
-                <h3>Impression</h3>
-                <div class="form-grid compact">
-                  <label>
-                    <span>Type imprimante</span>
-                    <select name="printerType">
-                      <option value="browser">Navigateur</option>
-                      <option value="network">Réseau</option>
-                      <option value="escpos">ESC/POS</option>
-                      <option value="label">Étiquette</option>
-                    </select>
-                  </label>
-                  <label>
-                    <span>Format étiquette</span>
-                    <input name="labelFormat" type="text" />
-                  </label>
-                  <label>
-                    <span>Adresse IP</span>
-                    <input name="printerIp" type="text" />
-                  </label>
+                <div class="wizard-step-card">
+                  <div class="form-grid compact">
+                    <label><span>Frigos</span><input name="fridges" type="number" min="0" step="1" /></label>
+                    <label><span>Congélateurs</span><input name="freezers" type="number" min="0" step="1" /></label>
+                    <label><span>Chambres froides</span><input name="coldRooms" type="number" min="0" step="1" /></label>
+                    <label><span>Zones de stockage</span><input name="stockZones" type="number" min="0" step="1" /></label>
+                  </div>
+                  <div class="field-group">
+                    <h3>Catégories produits</h3>
+                    <div class="chips" id="stock-categories"></div>
+                  </div>
                 </div>
               </div>
             </section>
 
             <section class="wizard-panel" data-step-panel="5">
-              <div class="field-group">
-                <h3>Révision finale</h3>
-                <p class="muted">Vérifie les paramètres, les quantités et les recommandations avant de générer l’instance.</p>
-                <div class="review-grid">
-                  <div>
-                    <span>Restaurant</span>
-                    <strong id="review-restaurant"></strong>
-                  </div>
-                  <div>
-                    <span>Équipe</span>
-                    <strong id="review-team"></strong>
-                  </div>
-                  <div>
-                    <span>Équipements</span>
-                    <strong id="review-equipment"></strong>
-                  </div>
-                  <div>
-                    <span>Modules</span>
-                    <strong id="review-modules"></strong>
-                  </div>
+              <div class="wizard-step-layout">
+                <div class="wizard-step-copy">
+                  <p class="eyebrow">Étape 5</p>
+                  <h3>HACCP</h3>
+                  <p>Équipements, fréquence des relevés et tâches de nettoyage.</p>
                 </div>
-                <div class="wizard-actions">
-                  <a class="btn primary" href="#activation">Générer l'instance</a>
-                  <button class="btn secondary" type="button" id="export-config-inline">Exporter la configuration</button>
+                <div class="wizard-step-card">
+                  <div class="form-grid compact">
+                    <label><span>Température froid positif</span><input name="coldMin" type="text" /></label>
+                    <label><span>Température froid positif max</span><input name="coldMax" type="text" /></label>
+                    <label><span>Température chaud min</span><input name="hotMin" type="text" /></label>
+                    <label><span>Seuil conformité</span><input name="haccpThreshold" type="number" step="1" /></label>
+                    <label><span>Fréquence relevés</span><select name="temperatureFrequency"><option value="midi">Midi</option><option value="soir">Soir</option><option value="midi-soir">Midi et soir</option><option value="quotidien">Quotidien</option></select></label>
+                    <label><span>Fréquence nettoyage</span><select name="cleaningFrequency"><option value="daily">Quotidien</option><option value="after-service">Après service</option><option value="weekly">Hebdomadaire</option></select></label>
+                    <label><span>Sondes température</span><input name="probes" type="number" min="0" step="1" /></label>
+                    <label><span>Plan HACCP</span><input name="haccpPlan" type="text" /></label>
+                  </div>
                 </div>
               </div>
             </section>
+
+            <section class="wizard-panel" data-step-panel="6">
+              <div class="wizard-step-layout">
+                <div class="wizard-step-copy">
+                  <p class="eyebrow">Étape 6</p>
+                  <h3>Impression</h3>
+                  <p>Préparez les étiquettes et les tickets avant activation.</p>
+                </div>
+                <div class="wizard-step-card">
+                  <div class="form-grid compact">
+                    <label><span>Imprimantes étiquettes</span><input name="labelPrinters" type="number" min="0" step="1" /></label>
+                    <label><span>Imprimantes tickets</span><input name="ticketPrinters" type="number" min="0" step="1" /></label>
+                    <label><span>Type imprimante</span><select name="printerType"><option value="browser">Navigateur</option><option value="network">Réseau</option><option value="escpos">ESC/POS</option><option value="label">Étiquette</option></select></label>
+                    <label><span>Format étiquette</span><input name="labelFormat" type="text" /></label>
+                    <label><span>Adresse IP</span><input name="printerIp" type="text" /></label>
+                    <label><span>Nom imprimante</span><input name="printer" type="text" /></label>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="wizard-panel" data-step-panel="7">
+              <div class="wizard-step-layout">
+                <div class="wizard-step-copy">
+                  <p class="eyebrow">Étape 7</p>
+                  <h3>Modules à activer</h3>
+                  <p>Choisissez le périmètre métier du restaurant.</p>
+                  <div class="wizard-side-card">
+                    <span>IA</span>
+                    <strong>Module à venir, affiché comme non activé.</strong>
+                  </div>
+                </div>
+                <div class="wizard-step-card">
+                  <div class="chips modules-chips" id="module-switches"></div>
+                </div>
+              </div>
+            </section>
+
+            <section class="wizard-panel" data-step-panel="8">
+              <div class="wizard-step-layout">
+                <div class="wizard-step-copy">
+                  <p class="eyebrow">Étape 8</p>
+                  <h3>Résumé</h3>
+                  <p>Vérifiez l'ensemble du paramétrage avant la génération du pack client.</p>
+                  <div class="wizard-side-card">
+                    <span>Sortie</span>
+                    <strong>Pack client, configuration JSON et préparation de l’instance.</strong>
+                  </div>
+                </div>
+                <div class="wizard-step-card">
+                  <div class="review-grid">
+                    <div><span>Restaurant</span><strong id="review-restaurant"></strong></div>
+                    <div><span>Équipe</span><strong id="review-team"></strong></div>
+                    <div><span>Équipements</span><strong id="review-equipment"></strong></div>
+                    <div><span>Modules</span><strong id="review-modules"></strong></div>
+                  </div>
+                  <div class="wizard-actions">
+                    <button class="btn secondary" type="button" id="export-config-inline">Exporter la configuration</button>
+                    <button class="btn primary" type="button" id="generate-instance">Créer mon espace</button>
+                    <button class="btn secondary" type="button" id="download-instance">Télécharger le pack client</button>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <div class="wizard-nav">
+              <button class="btn secondary" type="button" id="wizard-prev">Précédent</button>
+              <button class="btn primary" type="button" id="wizard-next">Suivant</button>
+            </div>
           </form>
 
-          <aside class="preview panel">
+          <aside class="preview panel wizard-preview">
             <p class="eyebrow">Aperçu client</p>
             <h3 id="preview-name"></h3>
             <p id="preview-location" class="muted"></p>
@@ -464,7 +327,6 @@
               <div><span>Pack</span><strong id="preview-plan"></strong></div>
               <div><span>Modules actifs</span><strong id="preview-modules"></strong></div>
               <div><span>Structure</span><strong id="preview-structure"></strong></div>
-              <div><span>Conformité</span><strong id="preview-haccp"></strong></div>
               <div><span>Activation</span><strong id="preview-activation"></strong></div>
             </div>
             <div class="preview-block">
@@ -475,80 +337,8 @@
         </div>
       </section>
 
-      <section id="trust" class="panel trust">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">Centre de confiance</p>
-            <h2>Sécurité, conformité et transparence</h2>
-            <p>Les acheteurs SaaS demandent des preuves claires. Cette section sert de base au dossier de validation et à la vente.</p>
-          </div>
-        </div>
-        <div class="trust-grid" id="trust-grid"></div>
-      </section>
-
-      <section id="activation" class="panel activation">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">Activation</p>
-            <h2>Créer l'instance du restaurant</h2>
-            <p>Le client saisit ses infos, valide, puis télécharge le pack d’activation avec configuration et docker.</p>
-          </div>
-          <div class="activation-actions">
-            <button class="btn primary" id="generate-instance">Générer le pack</button>
-            <button class="btn secondary" id="download-instance">Télécharger le pack</button>
-          </div>
-        </div>
-        <div class="activation-layout">
-          <div class="activation-card">
-            <h3>Instance client</h3>
-            <p class="muted">Sous-domaine, accès, modules et état du déploiement.</p>
-            <div class="activation-hero">
-              <div>
-                <span>Restaurant</span>
-                <strong id="instance-name"></strong>
-              </div>
-              <div>
-                <span>URL</span>
-                <strong id="instance-url"></strong>
-              </div>
-              <div>
-                <span>État</span>
-                <strong id="instance-status"></strong>
-              </div>
-              <div>
-                <span>Docker</span>
-                <strong id="instance-docker"></strong>
-              </div>
-              <div>
-                <span>Santé</span>
-                <strong id="instance-health"></strong>
-              </div>
-            </div>
-          </div>
-          <div class="activation-card">
-            <h3>Checklist d'activation</h3>
-            <ul id="activation-checklist" class="checklist compact"></ul>
-          </div>
-        </div>
-      </section>
-
-      <section id="dossier" class="panel dossier">
-        <div>
-          <p class="eyebrow">Dossier de livraison</p>
-          <h2>Ce qu’un restaurant reçoit</h2>
-          <ul class="checklist">
-            <li>Code source et accès GitHub</li>
-            <li>Environnements Docker et variables</li>
-            <li>Pack de démo et configuration client</li>
-            <li>Pack d’activation client</li>
-            <li>Checklist de due diligence</li>
-            <li>Guide de livraison client</li>
-          </ul>
-        </div>
-        <div class="dossier-actions">
-          <button class="btn primary" id="copy-summary">Copier le résumé</button>
-          <a class="btn secondary" href="sales/delivery-checklist.md" download>Télécharger la checklist</a>
-        </div>
+      <section class="panel footer-trust">
+        <div class="footer-trust-grid" id="trust-grid"></div>
       </section>
     </main>
   </body>

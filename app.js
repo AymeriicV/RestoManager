@@ -5,6 +5,7 @@ const defaultConfig = {
   companyName: "RestoManager",
   restaurantName: "Chez Thérèse et Denise",
   contactEmail: "",
+  contactPhone: "",
   address: "",
   city: "Nantes",
   currency: "EUR",
@@ -12,6 +13,19 @@ const defaultConfig = {
   timezone: "Europe/Paris",
   openingHours: "Lun-Jeu 12:00-14:00 / 19:00-22:00, Ven-Sam 12:00-14:30 / 19:00-22:30",
   restaurantId: "resto_001",
+  schedule: {
+    days: {
+      mon: true,
+      tue: true,
+      wed: true,
+      thu: true,
+      fri: true,
+      sat: true,
+      sun: false,
+    },
+    lunch: true,
+    dinner: true,
+  },
   modules: {
     invoices: true,
     stock: true,
@@ -30,12 +44,16 @@ const defaultConfig = {
     coldMax: "4°C",
     hotMin: "63°C",
     threshold: 95,
+    temperatureFrequency: "midi-soir",
+    cleaningFrequency: "daily",
+    plan: "",
   },
   stock: {
     reorderThreshold: 5,
     targetFoodCost: 0.32,
     targetMargin: 0.68,
     defaultUnit: "kg",
+    categories: ["Viande", "Poisson", "Fruits & légumes", "Crèmerie"],
   },
   ocr: {
     mode: "hybrid",
@@ -47,6 +65,8 @@ const defaultConfig = {
     type: "browser",
     format: "58mm",
     ip: "",
+    labelPrinters: 1,
+    ticketPrinters: 1,
   },
   structure: {
     employees: 12,
@@ -66,6 +86,7 @@ const defaultConfig = {
   },
   wizard: {
     step: 1,
+    started: false,
   },
   trust: {
     encryption: true,
@@ -79,6 +100,11 @@ const defaultConfig = {
     status: "En attente de validation",
     dockerImage: "restomanager-app:latest",
     health: "Prêt à déployer",
+  },
+  owner: {
+    name: "Owner",
+    email: "",
+    password: "",
   },
 };
 
@@ -98,14 +124,20 @@ const moduleLabels = {
 
 const form = document.getElementById("restaurant-form");
 const summaryList = document.getElementById("commercial-summary");
+const startConfigButton = document.getElementById("start-config");
 const wizardStepButtons = document.querySelectorAll("[data-wizard-step]");
 const wizardPanels = document.querySelectorAll("[data-step-panel]");
+const wizardShell = document.getElementById("wizard");
 const wizardRecommendations = document.getElementById("wizard-recommendations");
 const wizardProgress = document.getElementById("wizard-progress");
 const wizardLabel = document.getElementById("wizard-label");
 const wizardHint = document.getElementById("wizard-hint");
 const presetButtons = document.querySelectorAll("[data-preset]");
+const wizardPrev = document.getElementById("wizard-prev");
+const wizardNext = document.getElementById("wizard-next");
 const moduleSwitches = document.getElementById("module-switches");
+const openingDaysGrid = document.getElementById("opening-days");
+const stockCategoriesGrid = document.getElementById("stock-categories");
 const configJson = document.getElementById("config-json");
 const previewName = document.getElementById("preview-name");
 const previewLocation = document.getElementById("preview-location");
@@ -114,16 +146,8 @@ const previewModules = document.getElementById("preview-modules");
 const previewHaccp = document.getElementById("preview-haccp");
 const previewActivation = document.getElementById("preview-activation");
 const previewStructure = document.getElementById("preview-structure");
-const blueprintEmployees = document.getElementById("blueprint-employees");
-const blueprintManagers = document.getElementById("blueprint-managers");
-const blueprintFridges = document.getElementById("blueprint-fridges");
-const blueprintFreezers = document.getElementById("blueprint-freezers");
-const blueprintColdRooms = document.getElementById("blueprint-coldrooms");
-const blueprintStockZones = document.getElementById("blueprint-stockzones");
-const blueprintPrinters = document.getElementById("blueprint-printers");
-const blueprintProbes = document.getElementById("blueprint-probes");
-const trustGrid = document.getElementById("trust-grid");
 const activationChecklist = document.getElementById("activation-checklist");
+const trustGrid = document.getElementById("trust-grid");
 const instanceName = document.getElementById("instance-name");
 const instanceUrl = document.getElementById("instance-url");
 const instanceStatus = document.getElementById("instance-status");
@@ -136,12 +160,26 @@ const exportButton = document.getElementById("export-config");
 const exportButtonInline = document.getElementById("export-config-inline");
 const resetButton = document.getElementById("reset-config");
 const copyButton = document.getElementById("copy-summary");
+const heroRestaurant = document.getElementById("hero-restaurant");
+const heroTeam = document.getElementById("hero-team");
+const heroStock = document.getElementById("hero-stock");
+const heroActivation = document.getElementById("hero-activation");
 const reviewRestaurant = document.getElementById("review-restaurant");
 const reviewTeam = document.getElementById("review-team");
 const reviewEquipment = document.getElementById("review-equipment");
 const reviewModules = document.getElementById("review-modules");
 
 let state = loadConfig();
+const openingDayOptions = [
+  ["mon", "Lun"],
+  ["tue", "Mar"],
+  ["wed", "Mer"],
+  ["thu", "Jeu"],
+  ["fri", "Ven"],
+  ["sat", "Sam"],
+  ["sun", "Dim"],
+];
+const stockCategoryOptions = ["Viande", "Poisson", "Fruits & légumes", "Crèmerie", "Épicerie", "Boissons", "Hygiène"];
 
 function loadConfig() {
   try {
@@ -180,6 +218,7 @@ function updateFormFromState() {
   form.companyName.value = state.companyName;
   form.restaurantName.value = state.restaurantName;
   form.contactEmail.value = state.contactEmail;
+  form.contactPhone.value = state.contactPhone || "";
   form.address.value = state.address;
   form.city.value = state.city;
   form.currency.value = state.currency;
@@ -187,6 +226,9 @@ function updateFormFromState() {
   form.timezone.value = state.timezone;
   form.openingHours.value = state.openingHours;
   form.restaurantId.value = state.restaurantId;
+  form.ownerName.value = state.owner?.name || "";
+  form.ownerEmail.value = state.owner?.email || "";
+  form.ownerPassword.value = state.owner?.password || "";
   form.ownerRole.value = state.onboarding.role;
   form.objective.value = state.onboarding.objective;
   form.seats.value = state.onboarding.seats;
@@ -195,6 +237,9 @@ function updateFormFromState() {
   form.coldMax.value = state.haccp.coldMax;
   form.hotMin.value = state.haccp.hotMin;
   form.haccpThreshold.value = state.haccp.threshold;
+  form.temperatureFrequency.value = state.haccp.temperatureFrequency || "midi-soir";
+  form.cleaningFrequency.value = state.haccp.cleaningFrequency || "daily";
+  form.haccpPlan.value = state.haccp.plan || "";
   form.reorderThreshold.value = state.stock.reorderThreshold;
   form.targetFoodCost.value = state.stock.targetFoodCost;
   form.targetMargin.value = state.stock.targetMargin;
@@ -214,12 +259,27 @@ function updateFormFromState() {
   form.stockZones.value = state.structure.stockZones;
   form.printersCount.value = state.structure.printers;
   form.probes.value = state.structure.probes;
+  form.labelPrinters.value = state.printers.labelPrinters || 0;
+  form.ticketPrinters.value = state.printers.ticketPrinters || 0;
+  openingDayOptions.forEach(([key]) => {
+    const input = form.querySelector(`[data-open-day="${key}"]`);
+    if (input) input.checked = Boolean(state.schedule?.days?.[key]);
+  });
+  const lunch = form.querySelector('[name="serviceLunch"]');
+  const dinner = form.querySelector('[name="serviceDinner"]');
+  if (lunch) lunch.checked = Boolean(state.schedule?.lunch);
+  if (dinner) dinner.checked = Boolean(state.schedule?.dinner);
+  stockCategoryOptions.forEach((label) => {
+    const input = form.querySelector(`[data-stock-category="${label}"]`);
+    if (input) input.checked = state.stock.categories?.includes(label);
+  });
 }
 
 function updateStateFromForm() {
   state.companyName = form.companyName.value.trim() || state.companyName;
   state.restaurantName = form.restaurantName.value.trim();
   state.contactEmail = form.contactEmail.value.trim();
+  state.contactPhone = form.contactPhone.value.trim();
   state.address = form.address.value.trim();
   state.city = form.city.value.trim();
   state.currency = form.currency.value.trim() || "EUR";
@@ -227,6 +287,11 @@ function updateStateFromForm() {
   state.timezone = form.timezone.value.trim() || "Europe/Paris";
   state.openingHours = form.openingHours.value.trim();
   state.restaurantId = form.restaurantId.value.trim() || state.restaurantId;
+  state.owner = {
+    name: form.ownerName.value.trim(),
+    email: form.ownerEmail.value.trim(),
+    password: form.ownerPassword.value.trim(),
+  };
   state.onboarding.role = form.ownerRole.value;
   state.onboarding.objective = form.objective.value.trim();
   state.onboarding.seats = String(Number(form.seats.value || 0) || 1);
@@ -235,10 +300,17 @@ function updateStateFromForm() {
   state.haccp.coldMax = form.coldMax.value.trim();
   state.haccp.hotMin = form.hotMin.value.trim();
   state.haccp.threshold = Number(form.haccpThreshold.value || 0);
+  state.haccp.temperatureFrequency = form.temperatureFrequency.value;
+  state.haccp.cleaningFrequency = form.cleaningFrequency.value;
+  state.haccp.plan = form.haccpPlan.value.trim();
   state.stock.reorderThreshold = Number(form.reorderThreshold.value || 0);
   state.stock.targetFoodCost = Number(form.targetFoodCost.value || 0);
   state.stock.targetMargin = Number(form.targetMargin.value || 0);
   state.stock.defaultUnit = form.defaultUnit.value.trim();
+  state.stock.categories = stockCategoryOptions.filter((label) => {
+    const input = form.querySelector(`[data-stock-category="${label}"]`);
+    return Boolean(input?.checked);
+  });
   state.ocr.mode = form.ocrMode.value;
   state.ocr.threshold = Number(form.ocrThreshold.value || 0);
   state.ocr.additionUrl = form.additionUrl.value.trim();
@@ -246,6 +318,8 @@ function updateStateFromForm() {
   state.printers.type = form.printerType.value;
   state.printers.format = form.labelFormat.value.trim();
   state.printers.ip = form.printerIp.value.trim();
+  state.printers.labelPrinters = Number(form.labelPrinters.value || 0);
+  state.printers.ticketPrinters = Number(form.ticketPrinters.value || 0);
   state.structure.employees = Number(form.employees.value || 0);
   state.structure.managers = Number(form.managers.value || 0);
   state.structure.fridges = Number(form.fridges.value || 0);
@@ -254,10 +328,20 @@ function updateStateFromForm() {
   state.structure.stockZones = Number(form.stockZones.value || 0);
   state.structure.printers = Number(form.printersCount.value || 0);
   state.structure.probes = Number(form.probes.value || 0);
+  state.schedule = {
+    days: Object.fromEntries(
+      openingDayOptions.map(([key]) => [key, Boolean(form.querySelector(`[data-open-day="${key}"]`)?.checked)]),
+    ),
+    lunch: Boolean(form.querySelector('[name="serviceLunch"]')?.checked),
+    dinner: Boolean(form.querySelector('[name="serviceDinner"]')?.checked),
+  };
 }
 
 function setWizardStep(step) {
   state.wizard.step = Number(step) || 1;
+  if (state.wizard.step > 1) {
+    state.wizard.started = true;
+  }
   renderAll();
   saveConfig();
 }
@@ -277,8 +361,16 @@ function getWizardRecommendations() {
 }
 
 function renderWizard() {
+  const started = Boolean(state.wizard.started);
+  document.body.dataset.wizardStarted = started ? "true" : "false";
+  if (wizardShell) {
+    wizardShell.hidden = !started;
+  }
+  if (startConfigButton) {
+    startConfigButton.textContent = started ? "Reprendre la configuration" : "Commencer la configuration";
+  }
   const activeStep = Number(state.wizard.step || 1);
-  const totalSteps = wizardStepButtons.length || 1;
+  const totalSteps = 8;
   wizardStepButtons.forEach((button) => {
     const step = Number(button.dataset.wizardStep);
     button.classList.toggle("active", step === activeStep);
@@ -289,26 +381,74 @@ function renderWizard() {
     panel.hidden = step !== activeStep;
   });
   if (wizardProgress) {
-    wizardProgress.style.width = `${(activeStep / totalSteps) * 100}%`;
+    const progress = started ? ((activeStep - 2) / 6) * 100 : 0;
+    wizardProgress.style.width = `${Math.max(0, Math.min(100, progress))}%`;
   }
   if (wizardLabel) {
     const labels = {
-      1: "Identité et contexte",
-      2: "Dimensionnement de l'exploitation",
-      3: "Modules et usages",
-      4: "HACCP, stock et périphériques",
-      5: "Révision finale",
+      2: "Restaurant",
+      3: "Équipe",
+      4: "Stock & zones",
+      5: "HACCP",
+      6: "Impression",
+      7: "Modules à activer",
+      8: "Résumé",
     };
-    wizardLabel.textContent = labels[activeStep] || labels[1];
+    wizardLabel.textContent = labels[activeStep] || "Bienvenue";
   }
   if (wizardHint) {
-    wizardHint.textContent = `${activeStep}/${totalSteps} étapes pour préparer le restaurant avant activation`;
+    wizardHint.textContent = started
+      ? `${activeStep}/8 pour préparer le restaurant avant activation`
+      : "1/8 pour découvrir l'onboarding";
   }
   if (wizardRecommendations) {
     const recommendations = getWizardRecommendations();
     wizardRecommendations.innerHTML = recommendations.length
       ? recommendations.map((item) => `<li>${item}</li>`).join("")
       : "<li>Aucune recommandation supplémentaire</li>";
+  }
+}
+
+function renderOpeningDays() {
+  if (!openingDaysGrid) return;
+  openingDaysGrid.innerHTML = openingDayOptions
+    .map(
+      ([key, label]) => `
+        <label class="toggle-card day-toggle">
+          <input type="checkbox" data-open-day="${key}" />
+          <span>${label}</span>
+        </label>
+      `,
+    )
+    .join("");
+}
+
+function renderStockCategories() {
+  if (!stockCategoriesGrid) return;
+  stockCategoriesGrid.innerHTML = stockCategoryOptions
+    .map(
+      (label) => `
+        <label class="chip chip-soft">
+          <input type="checkbox" data-stock-category="${label}" />
+          <span>${label}</span>
+        </label>
+      `,
+    )
+    .join("");
+}
+
+function renderHero() {
+  if (heroRestaurant) {
+    heroRestaurant.textContent = state.restaurantName || "Restaurant";
+  }
+  if (heroTeam) {
+    heroTeam.textContent = `${state.structure.employees} pers.`;
+  }
+  if (heroStock) {
+    heroStock.textContent = `${state.structure.fridges} frigos`;
+  }
+  if (heroActivation) {
+    heroActivation.textContent = state.activation.status;
   }
 }
 
@@ -396,6 +536,10 @@ function applyPreset(preset) {
   state.modules = { ...state.modules, ...presetConfig.modules };
   state.onboarding.sites = preset === "groupe" ? "3" : "1";
   state.plan = preset === "groupe" ? "group" : preset === "gastro" ? "pro" : "starter";
+  state.wizard.started = true;
+  if (state.wizard.step < 2) {
+    state.wizard.step = 2;
+  }
   renderAll();
   saveConfig();
 }
@@ -424,7 +568,8 @@ function renderSummary() {
     `Pack ${state.plan.toUpperCase()}`,
     `${computeModulesCount()} modules actifs`,
     `${state.structure.employees} employés`,
-    `${state.structure.fridges} frigos`,
+    `${state.structure.fridges} frigos / ${state.structure.freezers} congélateurs`,
+    `${state.schedule.lunch ? "Midi" : ""}${state.schedule.dinner ? " / Soir" : ""}`.replace(/^ ?\/ ?| ?\/ ?$/g, "") || "Services à définir",
     `Paramètres enregistrés localement`,
   ];
   summaryList.innerHTML = items.map((item) => `<li>${item}</li>`).join("");
@@ -465,6 +610,7 @@ function renderBlueprint() {
 }
 
 function renderTrustCenter() {
+  if (!trustGrid) return;
   const items = [
     {
       title: "Chiffrement",
@@ -516,6 +662,9 @@ function slugify(value) {
 
 function renderActivation() {
   state.activation.subdomain = `${slugify(state.restaurantName)}.restomanager.app`;
+  if (!instanceName || !instanceUrl || !instanceStatus || !instanceDocker || !instanceHealth || !activationChecklist) {
+    return;
+  }
   instanceName.textContent = state.restaurantName;
   instanceUrl.textContent = `https://${state.activation.subdomain}`;
   instanceStatus.textContent = state.activation.status;
@@ -540,6 +689,7 @@ function buildActivationPack() {
       companyName: state.companyName,
       name: state.restaurantName,
       contactEmail: state.contactEmail,
+      contactPhone: state.contactPhone,
       address: state.address,
       city: state.city,
       timezone: state.timezone,
@@ -551,6 +701,8 @@ function buildActivationPack() {
       plan: state.plan,
       mode: "self-service",
     },
+    schedule: state.schedule,
+    owner: state.owner,
     onboarding: state.onboarding,
     modules: state.modules,
     haccp: state.haccp,
@@ -581,13 +733,15 @@ function downloadActivationPack() {
 
 function renderAll() {
   updateFormFromState();
+  renderHero();
+  renderOpeningDays();
+  renderStockCategories();
   renderModules();
   renderSummary();
-  renderBlueprint();
   renderWizard();
   renderPreview();
-  renderTrustCenter();
   renderActivation();
+  renderTrustCenter();
 }
 
 function downloadJson() {
@@ -612,7 +766,9 @@ function copySummary() {
     `Pack: ${state.plan}`,
     `Modules actifs: ${computeModulesCount()}`,
     `Structure: ${state.structure.employees} employés / ${state.structure.fridges} frigos`,
-    `Horaires: ${state.openingHours || "à configurer"}`,
+    `Contact: ${state.contactPhone || "à compléter"} / ${state.contactEmail || "à compléter"}`,
+    `Ouverture: ${state.openingHours || "à configurer"}`,
+    `Services: ${(state.schedule.lunch ? "Midi" : "") + (state.schedule.dinner ? " Soir" : "")}`.trim(),
     `HACCP: ${state.haccp.coldMin} / ${state.haccp.coldMax}`,
     `OCR: ${state.ocr.mode} (${state.ocr.threshold})`,
     `Impression: ${state.printers.type} / ${state.printers.format}`,
@@ -625,12 +781,46 @@ form.addEventListener("input", () => {
   renderAll();
 });
 
+startConfigButton?.addEventListener("click", () => {
+  state.wizard.started = true;
+  if (state.wizard.step < 2) {
+    state.wizard.step = 2;
+  }
+  saveConfig();
+  renderAll();
+  document.getElementById("wizard")?.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
 wizardStepButtons.forEach((button) => {
   button.addEventListener("click", () => setWizardStep(button.dataset.wizardStep));
 });
 
 presetButtons.forEach((button) => {
   button.addEventListener("click", () => applyPreset(button.dataset.preset));
+});
+
+wizardPrev?.addEventListener("click", () => {
+  if (state.wizard.step <= 2) {
+    state.wizard.started = false;
+    state.wizard.step = 1;
+  } else {
+    state.wizard.step -= 1;
+  }
+  saveConfig();
+  renderAll();
+});
+
+wizardNext?.addEventListener("click", () => {
+  if (state.wizard.step < 8) {
+    state.wizard.started = true;
+    state.wizard.step += 1;
+    saveConfig();
+    renderAll();
+    return;
+  }
+  state.activation.status = "Validation requise";
+  saveConfig();
+  renderAll();
 });
 
 saveButton.addEventListener("click", () => {
