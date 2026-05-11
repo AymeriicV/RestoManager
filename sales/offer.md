@@ -1,8 +1,8 @@
-# Offer and pricing
+# Platform overview
 
 ## Positioning
 
-RestoManager is a premium restaurant operations platform focused on:
+Operyx is a premium restaurant operating system focused on:
 
 - supplier tracking
 - OCR invoice handling
@@ -10,39 +10,26 @@ RestoManager is a premium restaurant operations platform focused on:
 - technical sheets and sub-recipes
 - HACCP / PMS and temperatures
 - production and labels
-- planning and time clock
+- planning and badgeuse
 - analytics and price alerts
 
-## Recommended packaging
+## Product story
 
-### Starter
+Operyx replaces scattered restaurant tools with one operating system built for daily service:
 
-- 1 restaurant
-- core stock, invoices, recipes, HACCP, planning
-- email support
-- monthly billing
+- scan and classify documents
+- monitor stock and stock value
+- track production and losses
+- run HACCP and temperature routines
+- manage people, planning and pointage
+- surface operational signals in one dashboard
 
-### Pro
+## Packaging
 
-- 1 restaurant
-- advanced analytics
-- OCR and price alerts
-- labels and production workflows
-- priority support
+- 1 restaurant instance per tenant
+- multi-site ready for groups
+- role-based access control
+- branded onboarding and activation pack
+- operational analytics and audit trail
 
-### Group
-
-- multi-restaurant
-- permissions by role
-- shared reporting
-- onboarding and configuration included
-
-## Suggested pricing model
-
-- monthly subscription per restaurant
-- setup fee for onboarding and configuration
-- optional migration fee if data import is required
-- optional premium support add-on
-
-Keep the pricing page simple. The best sale is the one a restaurateur understands in 30 seconds.
-
+Keep the positioning simple: the buyer should understand the value in a few seconds.

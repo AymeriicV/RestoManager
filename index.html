@@ -3,25 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RestoManager - Mise à disposition et configuration autonome</title>
+    <title>Operyx — Restaurant Operating System</title>
     <meta
       name="description"
-      content="Logiciel restaurant premium pour stock, factures, HACCP, planning et analytics. Configuration autonome par restaurant."
+      content="Operyx est le système d'exploitation des restaurants modernes : stocks, HACCP, OCR factures, fiches techniques, production, planning et analyses."
     />
+    <link rel="icon" type="image/png" href="./public/branding/operyx-icon.png" />
+    <link rel="apple-touch-icon" href="./public/branding/operyx-icon.png" />
     <link rel="stylesheet" href="./styles.css" />
     <script defer src="./app.js"></script>
   </head>
   <body>
     <header class="topbar">
       <div class="brand">
-        <img class="brand-logo" src="./logo.svg" alt="RestoManager" />
+        <img class="brand-logo" src="./public/branding/operyx-icon.png" alt="Operyx" />
         <div>
-          <p class="eyebrow">RestoManager</p>
-          <h1>Mise à disposition du logiciel + configuration autonome par restaurant</h1>
+          <p class="eyebrow">Operyx</p>
+          <h1>Le système d’exploitation des restaurants modernes</h1>
         </div>
       </div>
       <nav class="topnav">
         <a href="#hero">Bienvenue</a>
+        <a href="#problem">Problème</a>
+        <a href="#solution">Solution</a>
+        <a href="#modules">Modules</a>
+        <a href="#workflow">Workflow</a>
         <a href="#wizard">Configuration</a>
       </nav>
     </header>
@@ -29,15 +35,15 @@
     <main class="page">
       <section id="hero" class="hero panel hero-premium">
         <div class="hero-copy">
-          <p class="eyebrow">RestoManager</p>
-          <h2>Configurez votre restaurant étape par étape.</h2>
+          <p class="eyebrow">Operyx</p>
+          <h2>Le système d’exploitation des restaurants modernes.</h2>
           <p>
-            Un onboarding clair, moderne et guidé pour préparer votre espace de travail avant activation.
-            Identité, équipe, stock, HACCP, impression et modules se configurent en quelques étapes.
+            Stocks, HACCP, OCR factures, fiches techniques, production, planning, badgeuse et analyses dans une
+            seule plateforme premium pensée pour la restauration moderne.
           </p>
           <div class="hero-actions">
             <button class="btn primary" id="start-config" type="button">Commencer la configuration</button>
-            <a class="btn secondary" href="#wizard">Voir l'aperçu</a>
+            <a class="btn secondary" href="#problem">Découvrir la plateforme</a>
           </div>
           <div class="hero-micro">
             <div>
@@ -57,10 +63,10 @@
         <div class="hero-visual panel">
           <div class="hero-visual-top">
             <div class="hero-logo-wrap">
-              <img class="brand-logo brand-logo-large" src="./logo.svg" alt="RestoManager" />
+              <img class="brand-logo brand-logo-large" src="./public/branding/operyx-logo.png" alt="Operyx" />
               <div>
-                <p class="eyebrow">SaaS restaurant</p>
-                <strong>RestoManager</strong>
+                <p class="eyebrow">Restaurant Operating System</p>
+                <strong>Operyx</strong>
               </div>
             </div>
             <span class="pill">Onboarding premium</span>
@@ -85,6 +91,106 @@
           </div>
         </div>
       </section>
+
+      <section id="problem" class="panel landing-section">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Le problème</p>
+            <h2>Les restaurants pilotent encore trop d’outils séparés.</h2>
+          </div>
+          <p class="muted">Operyx centralise les opérations pour réduire le bruit, les oublis et les pertes de temps.</p>
+        </div>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <span>Factures</span>
+            <h3>OCR dispersé</h3>
+            <p>Les factures se perdent, les lignes sont mal reprises et le stock ne suit pas toujours la réalité.</p>
+          </article>
+          <article class="feature-card">
+            <span>Stock</span>
+            <h3>Valeurs approximatives</h3>
+            <p>Les seuils, les ruptures et les coûts matières manquent de cohérence entre les équipes et les outils.</p>
+          </article>
+          <article class="feature-card">
+            <span>HACCP</span>
+            <h3>Suivi papier</h3>
+            <p>Relevés, nettoyage et conformité prennent du temps quand la structure n’est pas centralisée.</p>
+          </article>
+          <article class="feature-card">
+            <span>Planning</span>
+            <h3>Organisation isolée</h3>
+            <p>Planning, badgeuse et contrôle des horaires doivent parler la même langue métier.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="solution" class="panel landing-section">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">La solution</p>
+            <h2>Une plateforme unique pour produire, contrôler et piloter.</h2>
+          </div>
+          <p class="muted">Une expérience claire, premium et conçue pour l’exploitation réelle en restaurant.</p>
+        </div>
+        <div class="pillar-grid">
+          <article class="pillar-card">
+            <span>Centralisation</span>
+            <strong>Toutes les opérations au même endroit.</strong>
+          </article>
+          <article class="pillar-card">
+            <span>Automatisation</span>
+            <strong>Les contrôles, alertes et calculs métiers se mettent à jour automatiquement.</strong>
+          </article>
+          <article class="pillar-card">
+            <span>Conformité</span>
+            <strong>HACCP, températures et audit log pensés pour l’exploitation.</strong>
+          </article>
+        </div>
+      </section>
+
+      <section id="modules" class="panel landing-section">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Modules</p>
+            <h2>Le socle métier du restaurant moderne.</h2>
+          </div>
+          <p class="muted">Chaque module est activé selon le besoin réel du restaurant.</p>
+        </div>
+        <div class="module-grid">
+          <article class="module-card"><span>01</span><strong>OCR factures</strong></article>
+          <article class="module-card"><span>02</span><strong>Stocks</strong></article>
+          <article class="module-card"><span>03</span><strong>Inventaires</strong></article>
+          <article class="module-card"><span>04</span><strong>Fournisseurs</strong></article>
+          <article class="module-card"><span>05</span><strong>Fiches techniques</strong></article>
+          <article class="module-card"><span>06</span><strong>Production</strong></article>
+          <article class="module-card"><span>07</span><strong>HACCP</strong></article>
+          <article class="module-card"><span>08</span><strong>Températures</strong></article>
+          <article class="module-card"><span>09</span><strong>Étiquettes</strong></article>
+          <article class="module-card"><span>10</span><strong>Commandes fournisseurs</strong></article>
+          <article class="module-card"><span>11</span><strong>Planning</strong></article>
+          <article class="module-card"><span>12</span><strong>Badgeuse</strong></article>
+          <article class="module-card"><span>13</span><strong>Analyses</strong></article>
+          <article class="module-card"><span>14</span><strong>IA bientôt</strong></article>
+        </div>
+      </section>
+
+      <section id="workflow" class="panel landing-section">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Workflow</p>
+            <h2>Scanner, produire, contrôler, commander, analyser.</h2>
+          </div>
+          <p class="muted">Un flux simple qui suit l’exploitation du matin au soir.</p>
+        </div>
+        <div class="workflow-grid">
+          <article><span>1</span><strong>Scanner</strong><p>Les factures et les documents entrent dans le système.</p></article>
+          <article><span>2</span><strong>Produire</strong><p>Les fiches techniques, la production et les DLC restent cohérentes.</p></article>
+          <article><span>3</span><strong>Contrôler</strong><p>HACCP, températures et badgeuse suivent le rythme du restaurant.</p></article>
+          <article><span>4</span><strong>Commander</strong><p>Les seuils, alertes et besoins remontent automatiquement.</p></article>
+          <article><span>5</span><strong>Analyser</strong><p>Les décisions s’appuient sur les données réelles du terrain.</p></article>
+        </div>
+      </section>
+
       <section id="wizard" class="panel wizard-shell" hidden>
         <div class="wizard-shell-top">
           <div>
@@ -103,35 +209,45 @@
           <button class="wizard-step" type="button" data-wizard-step="2">
             <span>02</span>
             <strong>Restaurant</strong>
-            <small>Identité et horaires</small>
+            <small>Identité et contact</small>
           </button>
           <button class="wizard-step" type="button" data-wizard-step="3">
             <span>03</span>
-            <strong>Équipe</strong>
-            <small>Owner et accès</small>
+            <strong>Horaires</strong>
+            <small>Jours et services</small>
           </button>
           <button class="wizard-step" type="button" data-wizard-step="4">
             <span>04</span>
-            <strong>Stock</strong>
-            <small>Zones et familles</small>
+            <strong>Équipe</strong>
+            <small>Owner et accès</small>
           </button>
           <button class="wizard-step" type="button" data-wizard-step="5">
             <span>05</span>
-            <strong>HACCP</strong>
-            <small>Relevés et nettoyage</small>
+            <strong>Stock</strong>
+            <small>Zones et familles</small>
           </button>
           <button class="wizard-step" type="button" data-wizard-step="6">
             <span>06</span>
-            <strong>Impression</strong>
-            <small>Tickets et étiquettes</small>
+            <strong>HACCP</strong>
+            <small>Relevés et nettoyage</small>
           </button>
           <button class="wizard-step" type="button" data-wizard-step="7">
             <span>07</span>
-            <strong>Modules</strong>
-            <small>Périmètre métier</small>
+            <strong>Températures</strong>
+            <small>Équipements et créneaux</small>
           </button>
           <button class="wizard-step" type="button" data-wizard-step="8">
             <span>08</span>
+            <strong>Impression</strong>
+            <small>Tickets et étiquettes</small>
+          </button>
+          <button class="wizard-step" type="button" data-wizard-step="9">
+            <span>09</span>
+            <strong>Modules</strong>
+            <small>Périmètre métier</small>
+          </button>
+          <button class="wizard-step" type="button" data-wizard-step="10">
+            <span>10</span>
             <strong>Résumé</strong>
             <small>Créer mon espace</small>
           </button>
@@ -143,11 +259,7 @@
                 <div class="wizard-step-copy">
                   <p class="eyebrow">Étape 2</p>
                   <h3>Restaurant</h3>
-                  <p>Identité, contact et rythme d'ouverture.</p>
-                  <div class="wizard-side-card">
-                    <span>Conseil</span>
-                    <strong>Renseignez vos services midi et soir pour calibrer planning, HACCP et badgeuse.</strong>
-                  </div>
+                  <p>Identité et coordonnées de votre établissement.</p>
                 </div>
                 <div class="wizard-step-card">
                   <div class="form-grid">
@@ -160,6 +272,22 @@
                     <label><span>Fuseau horaire</span><input name="timezone" type="text" /></label>
                     <label><span>Horaires d'ouverture</span><input name="openingHours" type="text" /></label>
                   </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="wizard-panel" data-step-panel="3">
+              <div class="wizard-step-layout">
+                <div class="wizard-step-copy">
+                  <p class="eyebrow">Étape 3</p>
+                  <h3>Horaires & services</h3>
+                  <p>Définissez les jours ouverts et les services midi / soir.</p>
+                  <div class="wizard-side-card">
+                    <span>Conseil</span>
+                    <strong>Ces horaires alimentent le planning, la badgeuse et la logique HACCP.</strong>
+                  </div>
+                </div>
+                <div class="wizard-step-card">
                   <div class="field-group">
                     <h3>Jours d'ouverture</h3>
                     <div class="day-chip-grid" id="opening-days"></div>
@@ -175,10 +303,10 @@
               </div>
             </section>
 
-            <section class="wizard-panel" data-step-panel="3">
+            <section class="wizard-panel" data-step-panel="4">
               <div class="wizard-step-layout">
                 <div class="wizard-step-copy">
-                  <p class="eyebrow">Étape 3</p>
+                  <p class="eyebrow">Étape 4</p>
                   <h3>Équipe</h3>
                   <p>Dimensionnez vos accès et créez le compte owner.</p>
                   <div class="wizard-side-card">
@@ -201,10 +329,10 @@
               </div>
             </section>
 
-            <section class="wizard-panel" data-step-panel="4">
+            <section class="wizard-panel" data-step-panel="5">
               <div class="wizard-step-layout">
                 <div class="wizard-step-copy">
-                  <p class="eyebrow">Étape 4</p>
+                  <p class="eyebrow">Étape 5</p>
                   <h3>Stock & zones</h3>
                   <p>Préparez les volumes de stockage et les familles produits.</p>
                   <div class="wizard-side-card">
@@ -217,6 +345,7 @@
                     <label><span>Frigos</span><input name="fridges" type="number" min="0" step="1" /></label>
                     <label><span>Congélateurs</span><input name="freezers" type="number" min="0" step="1" /></label>
                     <label><span>Chambres froides</span><input name="coldRooms" type="number" min="0" step="1" /></label>
+                    <label><span>Réserve sèche</span><input name="dryStorage" type="number" min="0" step="1" /></label>
                     <label><span>Zones de stockage</span><input name="stockZones" type="number" min="0" step="1" /></label>
                   </div>
                   <div class="field-group">
@@ -227,10 +356,10 @@
               </div>
             </section>
 
-            <section class="wizard-panel" data-step-panel="5">
+            <section class="wizard-panel" data-step-panel="6">
               <div class="wizard-step-layout">
                 <div class="wizard-step-copy">
-                  <p class="eyebrow">Étape 5</p>
+                  <p class="eyebrow">Étape 6</p>
                   <h3>HACCP</h3>
                   <p>Équipements, fréquence des relevés et tâches de nettoyage.</p>
                 </div>
@@ -249,10 +378,39 @@
               </div>
             </section>
 
-            <section class="wizard-panel" data-step-panel="6">
+            <section class="wizard-panel" data-step-panel="7">
               <div class="wizard-step-layout">
                 <div class="wizard-step-copy">
-                  <p class="eyebrow">Étape 6</p>
+                  <p class="eyebrow">Étape 7</p>
+                  <h3>Températures</h3>
+                  <p>Définissez les équipements à suivre et le rythme des relevés.</p>
+                  <div class="wizard-side-card">
+                    <span>Planning</span>
+                    <strong>Armoire réfrigérée, timbre chaud, entrée dessert et congélateur restent visibles dans le pack client.</strong>
+                  </div>
+                </div>
+                <div class="wizard-step-card">
+                  <div class="field-group">
+                    <h3>Équipements à contrôler</h3>
+                    <div class="service-toggle-grid equipment-grid">
+                      <label class="toggle-card"><input name="tempCabinet" type="checkbox" checked /><span>Armoire réfrigérée</span></label>
+                      <label class="toggle-card"><input name="tempHotPass" type="checkbox" checked /><span>Timbre chaud</span></label>
+                      <label class="toggle-card"><input name="tempDessertPass" type="checkbox" checked /><span>Timbre entrée / dessert</span></label>
+                      <label class="toggle-card"><input name="tempFreezer" type="checkbox" checked /><span>Congélateur</span></label>
+                    </div>
+                  </div>
+                  <div class="form-grid compact">
+                    <label><span>Fréquence suivis</span><select name="temperatureFrequency"><option value="midi">Midi</option><option value="soir">Soir</option><option value="midi-soir">Midi et soir</option><option value="quotidien">Quotidien</option></select></label>
+                    <label><span>Seuil conformité</span><input name="haccpThreshold" type="number" step="1" /></label>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="wizard-panel" data-step-panel="8">
+              <div class="wizard-step-layout">
+                <div class="wizard-step-copy">
+                  <p class="eyebrow">Étape 8</p>
                   <h3>Impression</h3>
                   <p>Préparez les étiquettes et les tickets avant activation.</p>
                 </div>
@@ -269,10 +427,10 @@
               </div>
             </section>
 
-            <section class="wizard-panel" data-step-panel="7">
+            <section class="wizard-panel" data-step-panel="9">
               <div class="wizard-step-layout">
                 <div class="wizard-step-copy">
-                  <p class="eyebrow">Étape 7</p>
+                  <p class="eyebrow">Étape 9</p>
                   <h3>Modules à activer</h3>
                   <p>Choisissez le périmètre métier du restaurant.</p>
                   <div class="wizard-side-card">
@@ -286,10 +444,10 @@
               </div>
             </section>
 
-            <section class="wizard-panel" data-step-panel="8">
+            <section class="wizard-panel" data-step-panel="10">
               <div class="wizard-step-layout">
                 <div class="wizard-step-copy">
-                  <p class="eyebrow">Étape 8</p>
+                  <p class="eyebrow">Étape 10</p>
                   <h3>Résumé</h3>
                   <p>Vérifiez l'ensemble du paramétrage avant la génération du pack client.</p>
                   <div class="wizard-side-card">
@@ -338,6 +496,13 @@
       </section>
 
       <section class="panel footer-trust">
+        <div class="cta-final">
+          <div>
+            <p class="eyebrow">Prêt à configurer</p>
+            <h2>Créez votre espace Operyx en quelques étapes.</h2>
+          </div>
+          <button class="btn primary" id="start-config-bottom" type="button">Configurer mon restaurant</button>
+        </div>
         <div class="footer-trust-grid" id="trust-grid"></div>
       </section>
     </main>

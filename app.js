@@ -1,8 +1,8 @@
-const storageKey = "restomanager.sales.config";
+const storageKey = "operyx.sales.config";
 
 const defaultConfig = {
   plan: "pro",
-  companyName: "RestoManager",
+  companyName: "Operyx",
   restaurantName: "Chez Thérèse et Denise",
   contactEmail: "",
   contactPhone: "",
@@ -11,17 +11,17 @@ const defaultConfig = {
   currency: "EUR",
   vatRate: 10,
   timezone: "Europe/Paris",
-  openingHours: "Lun-Jeu 12:00-14:00 / 19:00-22:00, Ven-Sam 12:00-14:30 / 19:00-22:30",
+  openingHours: "Lun fermé, Mar fermé, Mer-Sam 12:00-14:00 / 19:00-22:30, Dim 12:00-14:30",
   restaurantId: "resto_001",
   schedule: {
     days: {
-      mon: true,
-      tue: true,
+      mon: false,
+      tue: false,
       wed: true,
       thu: true,
       fri: true,
       sat: true,
-      sun: false,
+      sun: true,
     },
     lunch: true,
     dinner: true,
@@ -47,6 +47,12 @@ const defaultConfig = {
     temperatureFrequency: "midi-soir",
     cleaningFrequency: "daily",
     plan: "",
+    temperatureEquipment: {
+      cabinet: true,
+      hotPass: true,
+      dessertPass: true,
+      freezer: true,
+    },
   },
   stock: {
     reorderThreshold: 5,
@@ -74,6 +80,7 @@ const defaultConfig = {
     fridges: 3,
     freezers: 1,
     coldRooms: 1,
+    dryStorage: 1,
     stockZones: 4,
     printers: 2,
     probes: 4,
@@ -96,9 +103,9 @@ const defaultConfig = {
     statusPage: true,
   },
   activation: {
-    subdomain: "chez-therese-denise.restomanager.app",
+    subdomain: "chez-therese-denise.operyx.app",
     status: "En attente de validation",
-    dockerImage: "restomanager-app:latest",
+    dockerImage: "operyx-app:latest",
     health: "Prêt à déployer",
   },
   owner: {
@@ -125,6 +132,7 @@ const moduleLabels = {
 const form = document.getElementById("restaurant-form");
 const summaryList = document.getElementById("commercial-summary");
 const startConfigButton = document.getElementById("start-config");
+const startConfigBottomButton = document.getElementById("start-config-bottom");
 const wizardStepButtons = document.querySelectorAll("[data-wizard-step]");
 const wizardPanels = document.querySelectorAll("[data-step-panel]");
 const wizardShell = document.getElementById("wizard");
@@ -240,6 +248,15 @@ function updateFormFromState() {
   form.temperatureFrequency.value = state.haccp.temperatureFrequency || "midi-soir";
   form.cleaningFrequency.value = state.haccp.cleaningFrequency || "daily";
   form.haccpPlan.value = state.haccp.plan || "";
+  const equipment = state.haccp.temperatureEquipment || {};
+  const cabinet = form.querySelector('[name="tempCabinet"]');
+  const hotPass = form.querySelector('[name="tempHotPass"]');
+  const dessertPass = form.querySelector('[name="tempDessertPass"]');
+  const freezer = form.querySelector('[name="tempFreezer"]');
+  if (cabinet) cabinet.checked = Boolean(equipment.cabinet);
+  if (hotPass) hotPass.checked = Boolean(equipment.hotPass);
+  if (dessertPass) dessertPass.checked = Boolean(equipment.dessertPass);
+  if (freezer) freezer.checked = Boolean(equipment.freezer);
   form.reorderThreshold.value = state.stock.reorderThreshold;
   form.targetFoodCost.value = state.stock.targetFoodCost;
   form.targetMargin.value = state.stock.targetMargin;
@@ -256,6 +273,7 @@ function updateFormFromState() {
   form.fridges.value = state.structure.fridges;
   form.freezers.value = state.structure.freezers;
   form.coldRooms.value = state.structure.coldRooms;
+  form.dryStorage.value = state.structure.dryStorage || 0;
   form.stockZones.value = state.structure.stockZones;
   form.printersCount.value = state.structure.printers;
   form.probes.value = state.structure.probes;
@@ -303,6 +321,12 @@ function updateStateFromForm() {
   state.haccp.temperatureFrequency = form.temperatureFrequency.value;
   state.haccp.cleaningFrequency = form.cleaningFrequency.value;
   state.haccp.plan = form.haccpPlan.value.trim();
+  state.haccp.temperatureEquipment = {
+    cabinet: Boolean(form.querySelector('[name="tempCabinet"]')?.checked),
+    hotPass: Boolean(form.querySelector('[name="tempHotPass"]')?.checked),
+    dessertPass: Boolean(form.querySelector('[name="tempDessertPass"]')?.checked),
+    freezer: Boolean(form.querySelector('[name="tempFreezer"]')?.checked),
+  };
   state.stock.reorderThreshold = Number(form.reorderThreshold.value || 0);
   state.stock.targetFoodCost = Number(form.targetFoodCost.value || 0);
   state.stock.targetMargin = Number(form.targetMargin.value || 0);
@@ -325,6 +349,7 @@ function updateStateFromForm() {
   state.structure.fridges = Number(form.fridges.value || 0);
   state.structure.freezers = Number(form.freezers.value || 0);
   state.structure.coldRooms = Number(form.coldRooms.value || 0);
+  state.structure.dryStorage = Number(form.dryStorage.value || 0);
   state.structure.stockZones = Number(form.stockZones.value || 0);
   state.structure.printers = Number(form.printersCount.value || 0);
   state.structure.probes = Number(form.probes.value || 0);
@@ -370,7 +395,6 @@ function renderWizard() {
     startConfigButton.textContent = started ? "Reprendre la configuration" : "Commencer la configuration";
   }
   const activeStep = Number(state.wizard.step || 1);
-  const totalSteps = 8;
   wizardStepButtons.forEach((button) => {
     const step = Number(button.dataset.wizardStep);
     button.classList.toggle("active", step === activeStep);
@@ -381,25 +405,27 @@ function renderWizard() {
     panel.hidden = step !== activeStep;
   });
   if (wizardProgress) {
-    const progress = started ? ((activeStep - 2) / 6) * 100 : 0;
+    const progress = started ? ((activeStep - 2) / 8) * 100 : 0;
     wizardProgress.style.width = `${Math.max(0, Math.min(100, progress))}%`;
   }
   if (wizardLabel) {
     const labels = {
       2: "Restaurant",
-      3: "Équipe",
-      4: "Stock & zones",
-      5: "HACCP",
-      6: "Impression",
-      7: "Modules à activer",
-      8: "Résumé",
+      3: "Horaires & services",
+      4: "Équipe",
+      5: "Stock & zones",
+      6: "HACCP",
+      7: "Températures",
+      8: "Impression",
+      9: "Modules à activer",
+      10: "Résumé",
     };
     wizardLabel.textContent = labels[activeStep] || "Bienvenue";
   }
   if (wizardHint) {
     wizardHint.textContent = started
-      ? `${activeStep}/8 pour préparer le restaurant avant activation`
-      : "1/8 pour découvrir l'onboarding";
+      ? `${activeStep}/10 pour préparer le restaurant avant activation`
+      : "1/10 pour découvrir l'onboarding";
   }
   if (wizardRecommendations) {
     const recommendations = getWizardRecommendations();
@@ -582,7 +608,7 @@ function renderPreview() {
   previewModules.textContent = `${computeModulesCount()}`;
   previewHaccp.textContent = `${state.haccp.coldMin} / ${state.haccp.coldMax}`;
   previewActivation.textContent = state.activation.status;
-  previewStructure.textContent = `${state.structure.employees} pers. · ${state.structure.fridges} frigos · ${state.structure.stockZones} zones`;
+  previewStructure.textContent = `${state.structure.employees} pers. · ${state.structure.fridges} frigos · ${state.structure.dryStorage || 0} réserve sèche · ${state.structure.stockZones} zones`;
   configJson.textContent = JSON.stringify(state, null, 2);
   if (reviewRestaurant) {
     reviewRestaurant.textContent = `${state.restaurantName || "Restaurant"} · ${state.city || "ville à définir"}`;
@@ -591,7 +617,7 @@ function renderPreview() {
     reviewTeam.textContent = `${state.structure.employees} employés / ${state.structure.managers} managers`;
   }
   if (reviewEquipment) {
-    reviewEquipment.textContent = `${state.structure.fridges} frigos / ${state.structure.freezers} congélateurs`;
+    reviewEquipment.textContent = `${state.structure.fridges} frigos / ${state.structure.freezers} congélateurs / ${state.structure.dryStorage || 0} réserve sèche`;
   }
   if (reviewModules) {
     reviewModules.textContent = `${computeModulesCount()} modules actifs`;
@@ -661,7 +687,7 @@ function slugify(value) {
 }
 
 function renderActivation() {
-  state.activation.subdomain = `${slugify(state.restaurantName)}.restomanager.app`;
+  state.activation.subdomain = `${slugify(state.restaurantName)}.operyx.app`;
   if (!instanceName || !instanceUrl || !instanceStatus || !instanceDocker || !instanceHealth || !activationChecklist) {
     return;
   }
@@ -762,7 +788,7 @@ function resetConfig() {
 
 function copySummary() {
   const text = [
-    `RestoManager - ${state.restaurantName}`,
+  `Operyx - ${state.restaurantName}`,
     `Pack: ${state.plan}`,
     `Modules actifs: ${computeModulesCount()}`,
     `Structure: ${state.structure.employees} employés / ${state.structure.fridges} frigos`,
@@ -791,6 +817,10 @@ startConfigButton?.addEventListener("click", () => {
   document.getElementById("wizard")?.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
+startConfigBottomButton?.addEventListener("click", () => {
+  startConfigButton?.click();
+});
+
 wizardStepButtons.forEach((button) => {
   button.addEventListener("click", () => setWizardStep(button.dataset.wizardStep));
 });
@@ -811,7 +841,7 @@ wizardPrev?.addEventListener("click", () => {
 });
 
 wizardNext?.addEventListener("click", () => {
-  if (state.wizard.step < 8) {
+  if (state.wizard.step < 10) {
     state.wizard.started = true;
     state.wizard.step += 1;
     saveConfig();

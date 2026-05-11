@@ -1,16 +1,15 @@
-# RestoManager
+# Operyx
 
-RestoManager is a restaurant SaaS for stock, invoices, recipes, HACCP, planning, time clock, and analytics.
+Operyx is a premium restaurant operating system for stock, invoices, recipes, HACCP, planning, badgeuse, production, and analytics.
 
 This repository is the **sales and demo copy** of the product.
 
 ## What it includes
 
-- a commercial landing page
-- a self-service restaurant configurator
-- pricing and packaging
-- a sales demo script
-- a delivery and due diligence pack
+- a premium landing page
+- a self-service restaurant onboarding wizard
+- an activation pack export
+- sales and delivery documentation
 
 ## How to use
 
@@ -27,20 +26,20 @@ Then open `http://localhost:3001`.
 
 Each restaurant can configure:
 
-- restaurant identity
-- plan and billing
+- identity and contact details
+- opening days and services
+- team size and owner account
+- stock zones and product families
+- HACCP equipment and cleaning plan
+- temperature checkpoints
+- label and ticket printers
 - enabled modules
-- HACCP settings
-- stock rules
-- OCR settings
-- integrations
-- label printing
 
 The configuration is stored in the browser and can be exported as JSON, including the activation pack that can be handed to a client tenant.
 
 ## Sales docs
 
-- [Offer and pricing](sales/offer.md)
+- [Platform overview](sales/offer.md)
 - [Demo script](sales/demo-script.md)
 - [Due diligence checklist](sales/due-diligence.md)
 - [Delivery checklist](sales/delivery-checklist.md)

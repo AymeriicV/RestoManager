@@ -258,6 +258,125 @@ select {
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
+.landing-section {
+  margin-top: 1rem;
+  padding: 1.4rem;
+}
+
+.landing-section h2 {
+  margin: 0.25rem 0 0;
+  font-size: clamp(1.6rem, 3vw, 2.6rem);
+  letter-spacing: -0.03em;
+}
+
+.landing-section p.muted {
+  max-width: 54ch;
+}
+
+.feature-grid,
+.pillar-grid,
+.module-grid,
+.workflow-grid {
+  display: grid;
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.feature-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.feature-card,
+.pillar-card,
+.module-card,
+.workflow-grid article {
+  padding: 1rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(216, 224, 231, 0.9);
+  box-shadow: 0 16px 32px rgba(18, 24, 31, 0.05);
+}
+
+.feature-card span,
+.pillar-card span,
+.module-card span {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.feature-card h3,
+.pillar-card strong,
+.module-card strong,
+.workflow-grid strong {
+  margin: 0.35rem 0 0;
+  font-size: 1.02rem;
+  line-height: 1.4;
+}
+
+.feature-card p,
+.workflow-grid p {
+  margin: 0.45rem 0 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.pillar-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.pillar-card {
+  background: linear-gradient(180deg, rgba(19, 36, 49, 0.04), rgba(255, 255, 255, 0.92));
+}
+
+.module-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.module-card {
+  min-height: 6.25rem;
+}
+
+.workflow-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.workflow-grid article span {
+  display: inline-flex;
+  width: 2rem;
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(19, 36, 49, 0.1);
+  font-weight: 700;
+  margin-bottom: 0.45rem;
+}
+
+.cta-final {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 1.2rem;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(19, 36, 49, 0.96), rgba(17, 27, 36, 0.94));
+  color: #fff;
+}
+
+.cta-final p,
+.cta-final h2 {
+  margin: 0;
+}
+
+.cta-final .eyebrow,
+.cta-final .muted {
+  color: rgba(255, 255, 255, 0.72);
+}
+
 .hero-dashboard span {
   display: block;
   font-size: 0.76rem;
@@ -631,6 +750,14 @@ body[data-wizard-started="true"] .hero {
   display: none;
 }
 
+body[data-wizard-started="true"] .landing-section {
+  display: none;
+}
+
+body[data-wizard-started="true"] .footer-trust {
+  display: none;
+}
+
 body[data-wizard-started="true"] #wizard {
   display: grid;
 }
@@ -954,6 +1081,7 @@ select:focus {
   .pricing-grid,
   .dossier,
   .activation-layout,
+  .landing-section,
   .wizard-step-layout,
   .wizard-panels,
   .wizard-shell-top,
@@ -979,6 +1107,13 @@ select:focus {
 
   .wizard-step-layout {
     min-height: auto;
+  }
+
+  .feature-grid,
+  .pillar-grid,
+  .module-grid,
+  .workflow-grid {
+    grid-template-columns: 1fr 1fr;
   }
 
   .wizard-preview {
@@ -1029,6 +1164,10 @@ select:focus {
   .wizard-steps,
   .wizard-insights,
   .wizard-panels,
+  .feature-grid,
+  .pillar-grid,
+  .module-grid,
+  .workflow-grid,
   .blueprint-grid,
   .day-chip-grid,
   .service-toggle-grid,
@@ -1050,5 +1189,10 @@ select:focus {
 
   .hero-dashboard {
     grid-template-columns: 1fr;
+  }
+
+  .cta-final {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

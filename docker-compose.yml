@@ -1,7 +1,7 @@
 services:
   sales:
     image: nginx:1.27-alpine
-    container_name: restomanager-sales
+    container_name: operyx-sales
     ports:
       - "3001:80"
     volumes:
