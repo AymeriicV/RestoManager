@@ -274,12 +274,46 @@ select {
 }
 
 .feature-grid,
+.metrics-grid,
 .pillar-grid,
 .module-grid,
 .workflow-grid {
   display: grid;
   gap: 0.85rem;
   margin-top: 1rem;
+}
+
+.metrics-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.metric-card {
+  padding: 1.15rem;
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(19, 36, 49, 0.96), rgba(17, 27, 36, 0.93));
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 18px 42px rgba(18, 24, 31, 0.08);
+}
+
+.metric-card span {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.72;
+}
+
+.metric-card strong {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 1.2rem;
+}
+
+.metric-card p {
+  margin: 0.45rem 0 0;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.76);
 }
 
 .feature-grid {
@@ -1120,6 +1154,7 @@ select:focus {
   }
 
   .feature-grid,
+  .metrics-grid,
   .pillar-grid,
   .module-grid,
   .workflow-grid {
@@ -1175,6 +1210,7 @@ select:focus {
   .wizard-insights,
   .wizard-panels,
   .feature-grid,
+  .metrics-grid,
   .pillar-grid,
   .module-grid,
   .workflow-grid,
