@@ -2,6 +2,7 @@ const storageKey = "restomanager.sales.config";
 
 const defaultConfig = {
   plan: "pro",
+  companyName: "RestoManager",
   restaurantName: "Chez Thérèse et Denise",
   address: "",
   city: "Nantes",
@@ -45,6 +46,19 @@ const defaultConfig = {
     format: "58mm",
     ip: "",
   },
+  onboarding: {
+    role: "OWNER",
+    objective: "piloter",
+    seats: "40",
+    sites: "1",
+  },
+  trust: {
+    encryption: true,
+    backups: true,
+    auditLogs: true,
+    gdprExport: true,
+    statusPage: true,
+  },
 };
 
 const planPrices = {
@@ -85,6 +99,10 @@ const previewPlan = document.getElementById("preview-plan");
 const previewPrice = document.getElementById("preview-price");
 const previewModules = document.getElementById("preview-modules");
 const previewHaccp = document.getElementById("preview-haccp");
+const trustGrid = document.getElementById("trust-grid");
+const quoteBox = document.getElementById("quote-box");
+const downloadQuoteButton = document.getElementById("download-quote");
+const copyQuoteButton = document.getElementById("copy-quote");
 const saveButton = document.getElementById("save-config");
 const exportButton = document.getElementById("export-config");
 const resetButton = document.getElementById("reset-config");
@@ -97,10 +115,25 @@ function loadConfig() {
   try {
     const raw = localStorage.getItem(storageKey);
     if (!raw) return structuredClone(defaultConfig);
-    return { ...structuredClone(defaultConfig), ...JSON.parse(raw) };
+    return deepMerge(structuredClone(defaultConfig), JSON.parse(raw));
   } catch {
     return structuredClone(defaultConfig);
   }
+}
+
+function deepMerge(base, incoming) {
+  if (!incoming || typeof incoming !== "object" || Array.isArray(incoming)) {
+    return incoming ?? base;
+  }
+  const output = Array.isArray(base) ? [...base] : { ...base };
+  for (const [key, value] of Object.entries(incoming)) {
+    if (value && typeof value === "object" && !Array.isArray(value) && base && typeof base === "object" && !Array.isArray(base[key])) {
+      output[key] = deepMerge(base[key], value);
+    } else {
+      output[key] = value;
+    }
+  }
+  return output;
 }
 
 function saveConfig() {
@@ -217,11 +250,100 @@ function renderPreview() {
   configJson.textContent = JSON.stringify(state, null, 2);
 }
 
+function renderTrustCenter() {
+  const items = [
+    {
+      title: "Chiffrement",
+      value: state.trust.encryption ? "Actif" : "À activer",
+      detail: "Données et sauvegardes protégées",
+    },
+    {
+      title: "Sauvegardes",
+      value: state.trust.backups ? "Planifiées" : "Manuelles",
+      detail: "Export et restauration documentés",
+    },
+    {
+      title: "Journaux d'audit",
+      value: state.trust.auditLogs ? "Disponibles" : "Limité",
+      detail: "Traçabilité des actions critiques",
+    },
+    {
+      title: "RGPD",
+      value: state.trust.gdprExport ? "Export prêt" : "À configurer",
+      detail: "Suppression et export des données",
+    },
+    {
+      title: "Page statut",
+      value: state.trust.statusPage ? "Prévue" : "À construire",
+      detail: "Disponibilité et incidents",
+    },
+  ];
+  trustGrid.innerHTML = items
+    .map(
+      (item) => `
+        <article class="trust-card">
+          <p class="eyebrow">${item.title}</p>
+          <h3>${item.value}</h3>
+          <p>${item.detail}</p>
+        </article>
+      `,
+    )
+    .join("");
+}
+
+function buildQuote() {
+  const monthly = computeMonthlyPrice();
+  const setup = state.plan === "group" ? 590 : state.plan === "pro" ? 390 : 190;
+  const addons = Object.entries(state.modules)
+    .filter(([, enabled]) => enabled)
+    .filter(([key]) => modulePrices[key])
+    .map(([key]) => `${moduleLabels[key]}: ${money(modulePrices[key])}`)
+    .join("<br>");
+  quoteBox.innerHTML = `
+    <div class="quote-grid">
+      <div>
+        <p class="eyebrow">Client</p>
+        <h3>${state.restaurantName}</h3>
+        <p class="muted">${[state.address, state.city].filter(Boolean).join(" · ") || "À configurer"}</p>
+      </div>
+      <div>
+        <p class="eyebrow">Forfait</p>
+        <h3>${state.plan.toUpperCase()}</h3>
+        <p class="muted">${money(monthly)} / mois</p>
+      </div>
+      <div>
+        <p class="eyebrow">Frais de mise en service</p>
+        <h3>${money(setup)}</h3>
+        <p class="muted">Paramétrage, import et accompagnement</p>
+      </div>
+      <div>
+        <p class="eyebrow">Modules activés</p>
+        <h3>${computeModulesCount()}</h3>
+        <p class="muted">Base de configuration self-service</p>
+      </div>
+    </div>
+    <div class="quote-details">
+      <div>
+        <strong>Options incluses</strong>
+        <p class="muted">${addons || "Aucune option supplémentaire"}</p>
+      </div>
+      <div>
+        <strong>Résumé métier</strong>
+        <p class="muted">
+          HACCP ${state.haccp.coldMin} à ${state.haccp.coldMax}, objectif food cost ${Math.round(state.stock.targetFoodCost * 100)} %, imprimante ${state.printers.type}.
+        </p>
+      </div>
+    </div>
+  `;
+}
+
 function renderAll() {
   updateFormFromState();
   renderModules();
   renderSummary();
   renderPreview();
+  renderTrustCenter();
+  buildQuote();
   document.querySelectorAll(".price-card").forEach((card) => {
     card.classList.toggle("featured", card.dataset.plan === state.plan);
   });
@@ -262,6 +384,31 @@ function copySummary() {
   navigator.clipboard.writeText(text);
 }
 
+function quoteText() {
+  return [
+    `RestoManager - Devis`,
+    `Restaurant: ${state.restaurantName}`,
+    `Ville: ${state.city}`,
+    `Forfait: ${state.plan}`,
+    `Mensuel: ${money(computeMonthlyPrice())}`,
+    `Setup: ${money(state.plan === "group" ? 590 : state.plan === "pro" ? 390 : 190)}`,
+    `Modules: ${computeModulesCount()}`,
+    `HACCP: ${state.haccp.coldMin} / ${state.haccp.coldMax}`,
+    `OCR: ${state.ocr.mode} (${state.ocr.threshold})`,
+    `Imprimante: ${state.printers.type} / ${state.printers.format}`,
+  ].join("\n");
+}
+
+function downloadQuote() {
+  const blob = new Blob([quoteText()], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `${(state.restaurantName || "resto").toLowerCase().replace(/\s+/g, "-")}-devis.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 form.addEventListener("input", () => {
   updateStateFromForm();
   renderAll();
@@ -282,5 +429,7 @@ saveButton.addEventListener("click", () => {
 exportButton.addEventListener("click", downloadJson);
 resetButton.addEventListener("click", resetConfig);
 copyButton.addEventListener("click", copySummary);
+downloadQuoteButton.addEventListener("click", downloadQuote);
+copyQuoteButton.addEventListener("click", () => navigator.clipboard.writeText(quoteText()));
 
 renderAll();

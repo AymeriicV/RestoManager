@@ -21,8 +21,11 @@
         </div>
       </div>
       <nav class="topnav">
+        <a href="#onboarding">Onboarding</a>
         <a href="#tarifs">Tarifs</a>
         <a href="#config">Configurateur</a>
+        <a href="#trust">Confiance</a>
+        <a href="#quote">Devis</a>
         <a href="#dossier">Dossier</a>
       </nav>
     </header>
@@ -44,6 +47,38 @@
         <div class="hero-card">
           <p class="eyebrow">Résumé commercial</p>
           <ul id="commercial-summary" class="summary-list"></ul>
+        </div>
+      </section>
+
+      <section id="onboarding" class="panel onboarding">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Onboarding autonome</p>
+            <h2>Le restaurant se configure seul</h2>
+            <p>Le parcours guide le client, puis lui propose directement les bons réglages et le bon forfait.</p>
+          </div>
+        </div>
+        <div class="onboarding-grid">
+          <article class="step-card">
+            <span>1</span>
+            <h3>Définir le restaurant</h3>
+            <p>Nom, adresse, devise, TVA, fuseau horaire, couverture multi-sites.</p>
+          </article>
+          <article class="step-card">
+            <span>2</span>
+            <h3>Activer les modules</h3>
+            <p>Stock, recettes, HACCP, planning, badgeuse, production, analytics, intégrations.</p>
+          </article>
+          <article class="step-card">
+            <span>3</span>
+            <h3>Choisir la politique d’usage</h3>
+            <p>Mode OCR, seuils stock, food cost cible, marge cible, imprimantes et alertes.</p>
+          </article>
+          <article class="step-card">
+            <span>4</span>
+            <h3>Exporter le dossier</h3>
+            <p>Résumé de configuration, devis, checklist, PDF d’offre et pack de livraison.</p>
+          </article>
         </div>
       </section>
 
@@ -245,6 +280,32 @@
             </div>
           </aside>
         </div>
+      </section>
+
+      <section id="trust" class="panel trust">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Centre de confiance</p>
+            <h2>Sécurité, conformité et transparence</h2>
+            <p>Les acheteurs SaaS demandent des preuves claires. Cette section sert de base au dossier de validation et à la vente.</p>
+          </div>
+        </div>
+        <div class="trust-grid" id="trust-grid"></div>
+      </section>
+
+      <section id="quote" class="panel quote">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Devis</p>
+            <h2>Générer un devis lisible</h2>
+            <p>Le client peut imprimer ou envoyer un récapitulatif commercial avec forfait, options et configuration choisie.</p>
+          </div>
+          <div class="quote-actions">
+            <button class="btn primary" id="download-quote">Télécharger le devis</button>
+            <button class="btn secondary" id="copy-quote">Copier le devis</button>
+          </div>
+        </div>
+        <div class="quote-box" id="quote-box"></div>
       </section>
 
       <section id="dossier" class="panel dossier">

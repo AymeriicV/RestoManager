@@ -71,6 +71,10 @@ select {
 .brand h1,
 .hero h2,
 .config-head h2,
+.section-head h2,
+.quote h2,
+.trust h2,
+.onboarding h2,
 .dossier h2 {
   margin: 0;
 }
@@ -107,6 +111,13 @@ select {
   border-radius: var(--radius);
   background: rgba(255, 255, 255, 0.8);
   box-shadow: var(--shadow);
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-end;
 }
 
 .hero {
@@ -162,6 +173,92 @@ select {
   border-radius: 20px;
   background: linear-gradient(180deg, #203b3f 0%, #102022 100%);
   color: #fff;
+}
+
+.onboarding,
+.trust,
+.quote {
+  padding: 1.25rem;
+  margin-top: 1rem;
+}
+
+.onboarding-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.step-card,
+.trust-card {
+  padding: 1rem;
+  border-radius: 16px;
+  background: rgba(247, 245, 241, 0.85);
+  border: 1px solid var(--line);
+}
+
+.step-card span {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  display: inline-grid;
+  place-items: center;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+}
+
+.step-card h3,
+.trust-card h3 {
+  margin: 0.75rem 0 0.35rem;
+}
+
+.step-card p,
+.trust-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.quote-box {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 16px;
+  background: rgba(247, 245, 241, 0.85);
+  border: 1px solid var(--line);
+}
+
+.quote-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.quote-grid > div,
+.quote-details > div {
+  padding: 0.85rem;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+
+.quote-grid h3,
+.quote-details strong {
+  margin: 0.3rem 0 0;
+}
+
+.quote-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
 }
 
 .summary-list {
@@ -369,6 +466,14 @@ select:focus {
     display: grid;
   }
 
+  .section-head,
+  .quote-details,
+  .quote-grid,
+  .trust-grid,
+  .onboarding-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
   .topbar {
     display: grid;
   }
@@ -385,12 +490,23 @@ select:focus {
 
   .hero,
   .configurator,
+  .onboarding,
+  .trust,
+  .quote,
   .dossier {
     padding: 1rem;
   }
 
   .form-grid,
-  .preview-metrics {
+  .preview-metrics,
+  .quote-grid,
+  .quote-details,
+  .trust-grid,
+  .onboarding-grid {
     grid-template-columns: 1fr;
+  }
+
+  .section-head {
+    display: grid;
   }
 }
