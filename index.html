@@ -14,7 +14,7 @@
   <body>
     <header class="topbar">
       <div class="brand">
-        <div class="brand-mark">RM</div>
+        <img class="brand-logo" src="./logo.svg" alt="RestoManager" />
         <div>
           <p class="eyebrow">RestoManager</p>
           <h1>Mise à disposition du logiciel + configuration autonome par restaurant</h1>
@@ -22,6 +22,7 @@
       </div>
       <nav class="topnav">
         <a href="#onboarding">Onboarding</a>
+        <a href="#dimensionnement">Dimensionnement</a>
         <a href="#config">Configurateur</a>
         <a href="#activation">Activation</a>
         <a href="#trust">Confiance</a>
@@ -81,11 +82,58 @@
         </div>
       </section>
 
+      <section id="dimensionnement" class="panel blueprint">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Dimensionnement</p>
+            <h2>Préparer l'exploitation avant l’activation</h2>
+            <p>Le restaurant renseigne ses volumes réels avant de générer son instance. Les modules s’adaptent ensuite à la taille du site.</p>
+          </div>
+        </div>
+        <div class="blueprint-grid">
+          <article class="blueprint-card">
+            <div class="blueprint-head">
+              <span>01</span>
+              <h3>Équipe</h3>
+            </div>
+            <p>Cadrez les accès et les besoins quotidiens avant la création de l’espace.</p>
+            <div class="blueprint-stats">
+              <div><span>Employés</span><strong id="blueprint-employees"></strong></div>
+              <div><span>Managers</span><strong id="blueprint-managers"></strong></div>
+            </div>
+          </article>
+          <article class="blueprint-card">
+            <div class="blueprint-head">
+              <span>02</span>
+              <h3>Froid et stockage</h3>
+            </div>
+            <p>Dimensionnez les équipements pour HACCP, réception et suivi des stocks.</p>
+            <div class="blueprint-stats">
+              <div><span>Frigos</span><strong id="blueprint-fridges"></strong></div>
+              <div><span>Congélateurs</span><strong id="blueprint-freezers"></strong></div>
+              <div><span>Chambres froides</span><strong id="blueprint-coldrooms"></strong></div>
+              <div><span>Zones stockage</span><strong id="blueprint-stockzones"></strong></div>
+            </div>
+          </article>
+          <article class="blueprint-card">
+            <div class="blueprint-head">
+              <span>03</span>
+              <h3>Impression et contrôle</h3>
+            </div>
+            <p>Préparez les périphériques pour étiquettes, cuisine et suivi HACCP.</p>
+            <div class="blueprint-stats">
+              <div><span>Imprimantes</span><strong id="blueprint-printers"></strong></div>
+              <div><span>Sondes</span><strong id="blueprint-probes"></strong></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
       <section id="config" class="panel configurator">
         <div class="config-head">
           <div>
             <p class="eyebrow">Configurateur autonome</p>
-            <h2>Paramètres restaurant</h2>
+            <h2>Paramètres du restaurant</h2>
             <p>Le client peut adapter le logiciel à son exploitation sans dépendre d'une intervention technique.</p>
           </div>
           <div class="config-actions">
@@ -122,6 +170,44 @@
                 <span>Fuseau horaire</span>
                 <input name="timezone" type="text" />
               </label>
+            </div>
+
+            <div class="field-group">
+              <h3>Structure de l’exploitation</h3>
+              <div class="form-grid compact">
+                <label>
+                  <span>Employés</span>
+                  <input name="employees" type="number" min="0" step="1" />
+                </label>
+                <label>
+                  <span>Managers</span>
+                  <input name="managers" type="number" min="0" step="1" />
+                </label>
+                <label>
+                  <span>Frigos</span>
+                  <input name="fridges" type="number" min="0" step="1" />
+                </label>
+                <label>
+                  <span>Congélateurs</span>
+                  <input name="freezers" type="number" min="0" step="1" />
+                </label>
+                <label>
+                  <span>Chambres froides</span>
+                  <input name="coldRooms" type="number" min="0" step="1" />
+                </label>
+                <label>
+                  <span>Zones de stockage</span>
+                  <input name="stockZones" type="number" min="0" step="1" />
+                </label>
+                <label>
+                  <span>Imprimantes</span>
+                  <input name="printersCount" type="number" min="0" step="1" />
+                </label>
+                <label>
+                  <span>Sondes température</span>
+                  <input name="probes" type="number" min="0" step="1" />
+                </label>
+              </div>
             </div>
 
             <div class="field-group">
@@ -234,6 +320,7 @@
             <div class="preview-metrics">
               <div><span>Pack</span><strong id="preview-plan"></strong></div>
               <div><span>Modules actifs</span><strong id="preview-modules"></strong></div>
+              <div><span>Structure</span><strong id="preview-structure"></strong></div>
               <div><span>Conformité</span><strong id="preview-haccp"></strong></div>
               <div><span>Activation</span><strong id="preview-activation"></strong></div>
             </div>

@@ -1,0 +1,19 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">RestoManager</title>
+  <desc id="desc">Logo RestoManager avec monogramme RM et anneau de service.</desc>
+  <defs>
+    <linearGradient id="bg" x1="32" y1="28" x2="224" y2="228" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#203B3F" />
+      <stop offset="1" stop-color="#102022" />
+    </linearGradient>
+    <linearGradient id="accent" x1="84" y1="64" x2="176" y2="192" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F6E8D8" />
+      <stop offset="1" stop-color="#D9B48A" />
+    </linearGradient>
+  </defs>
+  <rect x="16" y="16" width="224" height="224" rx="56" fill="url(#bg)" />
+  <circle cx="128" cy="128" r="68" stroke="url(#accent)" stroke-width="14" opacity="0.96" />
+  <path d="M74 82H122C136 82 146 86 152 94C158 102 160 112 160 124C160 143 151 155 134 161L165 191H137L109 163H96V191H74V82Z" fill="#F8F5EF"/>
+  <path d="M150 82H182L206 137L230 82H256V191H234V119L206 170H196L168 119V191H150V82Z" fill="#F8F5EF" opacity="0.96"/>
+  <circle cx="128" cy="128" r="110" stroke="#F8F5EF" stroke-opacity="0.12" stroke-width="2" />
+</svg>

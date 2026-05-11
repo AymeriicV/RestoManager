@@ -46,6 +46,16 @@ const defaultConfig = {
     format: "58mm",
     ip: "",
   },
+  structure: {
+    employees: 12,
+    managers: 2,
+    fridges: 3,
+    freezers: 1,
+    coldRooms: 1,
+    stockZones: 4,
+    printers: 2,
+    probes: 4,
+  },
   onboarding: {
     role: "OWNER",
     objective: "piloter",
@@ -91,6 +101,15 @@ const previewPlan = document.getElementById("preview-plan");
 const previewModules = document.getElementById("preview-modules");
 const previewHaccp = document.getElementById("preview-haccp");
 const previewActivation = document.getElementById("preview-activation");
+const previewStructure = document.getElementById("preview-structure");
+const blueprintEmployees = document.getElementById("blueprint-employees");
+const blueprintManagers = document.getElementById("blueprint-managers");
+const blueprintFridges = document.getElementById("blueprint-fridges");
+const blueprintFreezers = document.getElementById("blueprint-freezers");
+const blueprintColdRooms = document.getElementById("blueprint-coldrooms");
+const blueprintStockZones = document.getElementById("blueprint-stockzones");
+const blueprintPrinters = document.getElementById("blueprint-printers");
+const blueprintProbes = document.getElementById("blueprint-probes");
 const trustGrid = document.getElementById("trust-grid");
 const activationChecklist = document.getElementById("activation-checklist");
 const instanceName = document.getElementById("instance-name");
@@ -163,6 +182,14 @@ function updateFormFromState() {
   form.printerType.value = state.printers.type;
   form.labelFormat.value = state.printers.format;
   form.printerIp.value = state.printers.ip;
+  form.employees.value = state.structure.employees;
+  form.managers.value = state.structure.managers;
+  form.fridges.value = state.structure.fridges;
+  form.freezers.value = state.structure.freezers;
+  form.coldRooms.value = state.structure.coldRooms;
+  form.stockZones.value = state.structure.stockZones;
+  form.printersCount.value = state.structure.printers;
+  form.probes.value = state.structure.probes;
 }
 
 function updateStateFromForm() {
@@ -188,6 +215,14 @@ function updateStateFromForm() {
   state.printers.type = form.printerType.value;
   state.printers.format = form.labelFormat.value.trim();
   state.printers.ip = form.printerIp.value.trim();
+  state.structure.employees = Number(form.employees.value || 0);
+  state.structure.managers = Number(form.managers.value || 0);
+  state.structure.fridges = Number(form.fridges.value || 0);
+  state.structure.freezers = Number(form.freezers.value || 0);
+  state.structure.coldRooms = Number(form.coldRooms.value || 0);
+  state.structure.stockZones = Number(form.stockZones.value || 0);
+  state.structure.printers = Number(form.printersCount.value || 0);
+  state.structure.probes = Number(form.probes.value || 0);
 }
 
 function renderModules() {
@@ -213,6 +248,8 @@ function renderSummary() {
   const items = [
     `Pack ${state.plan.toUpperCase()}`,
     `${computeModulesCount()} modules actifs`,
+    `${state.structure.employees} employés`,
+    `${state.structure.fridges} frigos`,
     `Paramètres enregistrés localement`,
   ];
   summaryList.innerHTML = items.map((item) => `<li>${item}</li>`).join("");
@@ -225,7 +262,19 @@ function renderPreview() {
   previewModules.textContent = `${computeModulesCount()}`;
   previewHaccp.textContent = `${state.haccp.coldMin} / ${state.haccp.coldMax}`;
   previewActivation.textContent = state.activation.status;
+  previewStructure.textContent = `${state.structure.employees} pers. · ${state.structure.fridges} frigos · ${state.structure.stockZones} zones`;
   configJson.textContent = JSON.stringify(state, null, 2);
+}
+
+function renderBlueprint() {
+  blueprintEmployees.textContent = state.structure.employees;
+  blueprintManagers.textContent = state.structure.managers;
+  blueprintFridges.textContent = state.structure.fridges;
+  blueprintFreezers.textContent = state.structure.freezers;
+  blueprintColdRooms.textContent = state.structure.coldRooms;
+  blueprintStockZones.textContent = state.structure.stockZones;
+  blueprintPrinters.textContent = state.structure.printers;
+  blueprintProbes.textContent = state.structure.probes;
 }
 
 function renderTrustCenter() {
@@ -316,6 +365,7 @@ function buildActivationPack() {
     stock: state.stock,
     ocr: state.ocr,
     printers: state.printers,
+    structure: state.structure,
     trust: state.trust,
     activation: state.activation,
     docker: {
@@ -341,6 +391,7 @@ function renderAll() {
   updateFormFromState();
   renderModules();
   renderSummary();
+  renderBlueprint();
   renderPreview();
   renderTrustCenter();
   renderActivation();
@@ -367,6 +418,7 @@ function copySummary() {
     `RestoManager - ${state.restaurantName}`,
     `Pack: ${state.plan}`,
     `Modules actifs: ${computeModulesCount()}`,
+    `Structure: ${state.structure.employees} employés / ${state.structure.fridges} frigos`,
     `HACCP: ${state.haccp.coldMin} / ${state.haccp.coldMax}`,
     `OCR: ${state.ocr.mode} (${state.ocr.threshold})`,
     `Impression: ${state.printers.type} / ${state.printers.format}`,
