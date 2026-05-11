@@ -193,9 +193,13 @@ function loadConfig() {
   try {
     const raw = localStorage.getItem(storageKey);
     if (!raw) return structuredClone(defaultConfig);
-    return deepMerge(structuredClone(defaultConfig), JSON.parse(raw));
+    const loaded = deepMerge(structuredClone(defaultConfig), JSON.parse(raw));
+    loaded.wizard = { ...(loaded.wizard || {}), step: 1, started: false };
+    return loaded;
   } catch {
-    return structuredClone(defaultConfig);
+    const fallback = structuredClone(defaultConfig);
+    fallback.wizard = { step: 1, started: false };
+    return fallback;
   }
 }
 
