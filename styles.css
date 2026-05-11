@@ -261,6 +261,72 @@ select {
   margin-top: 0.75rem;
 }
 
+.activation {
+  padding: 1.25rem;
+  margin-top: 1rem;
+  background:
+    radial-gradient(circle at top left, rgba(32, 59, 63, 0.08), transparent 32%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(247, 245, 241, 0.95));
+}
+
+.activation-layout {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.activation-card {
+  padding: 1rem;
+  border-radius: 16px;
+  background: rgba(247, 245, 241, 0.9);
+  border: 1px solid var(--line);
+}
+
+.activation-card h3 {
+  margin: 0;
+}
+
+.activation-card .muted {
+  margin-top: 0.35rem;
+}
+
+.activation-hero {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.activation-hero > div {
+  padding: 0.85rem;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+
+.activation-hero span {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-bottom: 0.35rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.activation-hero strong {
+  display: block;
+  font-size: 0.98rem;
+  word-break: break-word;
+}
+
+.activation-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}
+
 .summary-list {
   padding-left: 1.1rem;
   margin: 0.5rem 0 0;
@@ -457,7 +523,8 @@ select:focus {
   .hero,
   .config-layout,
   .pricing-grid,
-  .dossier {
+  .dossier,
+  .activation-layout {
     grid-template-columns: 1fr;
     display: grid;
   }
@@ -508,5 +575,9 @@ select:focus {
 
   .section-head {
     display: grid;
+  }
+
+  .activation-actions {
+    justify-content: flex-start;
   }
 }

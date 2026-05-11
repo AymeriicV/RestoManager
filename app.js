@@ -59,6 +59,12 @@ const defaultConfig = {
     gdprExport: true,
     statusPage: true,
   },
+  activation: {
+    subdomain: "chez-therese-denise.restomanager.app",
+    status: "En attente de validation",
+    dockerImage: "restomanager-app:latest",
+    health: "Prêt à déployer",
+  },
 };
 
 const planPrices = {
@@ -100,6 +106,14 @@ const previewPrice = document.getElementById("preview-price");
 const previewModules = document.getElementById("preview-modules");
 const previewHaccp = document.getElementById("preview-haccp");
 const trustGrid = document.getElementById("trust-grid");
+const activationChecklist = document.getElementById("activation-checklist");
+const instanceName = document.getElementById("instance-name");
+const instanceUrl = document.getElementById("instance-url");
+const instanceStatus = document.getElementById("instance-status");
+const instanceDocker = document.getElementById("instance-docker");
+const instanceHealth = document.getElementById("instance-health");
+const generateInstanceButton = document.getElementById("generate-instance");
+const downloadInstanceButton = document.getElementById("download-instance");
 const quoteBox = document.getElementById("quote-box");
 const downloadQuoteButton = document.getElementById("download-quote");
 const copyQuoteButton = document.getElementById("copy-quote");
@@ -291,6 +305,34 @@ function renderTrustCenter() {
     .join("");
 }
 
+function slugify(value) {
+  return (value || "restaurant")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function renderActivation() {
+  state.activation.subdomain = `${slugify(state.restaurantName)}.restomanager.app`;
+  instanceName.textContent = state.restaurantName;
+  instanceUrl.textContent = `https://${state.activation.subdomain}`;
+  instanceStatus.textContent = state.activation.status;
+  instanceDocker.textContent = state.activation.dockerImage;
+  instanceHealth.textContent = state.activation.health;
+  activationChecklist.innerHTML = [
+    "Compte restaurant créé",
+    "Modules configurés",
+    "HACCP et stock paramétrés",
+    "Impression et OCR testés",
+    "Pack Docker prêt",
+    "Accès client activable",
+  ]
+    .map((item) => `<li>${item}</li>`)
+    .join("");
+}
+
 function buildQuote() {
   const monthly = computeMonthlyPrice();
   const setup = state.plan === "group" ? 590 : state.plan === "pro" ? 390 : 190;
@@ -337,12 +379,54 @@ function buildQuote() {
   `;
 }
 
+function buildActivationPack() {
+  return {
+    restaurant: {
+      name: state.restaurantName,
+      address: state.address,
+      city: state.city,
+      timezone: state.timezone,
+      vatRate: state.vatRate,
+      restaurantId: state.restaurantId,
+    },
+    subscription: {
+      plan: state.plan,
+      monthlyPrice: computeMonthlyPrice(),
+      setupFee: state.plan === "group" ? 590 : state.plan === "pro" ? 390 : 190,
+    },
+    modules: state.modules,
+    haccp: state.haccp,
+    stock: state.stock,
+    ocr: state.ocr,
+    printers: state.printers,
+    trust: state.trust,
+    activation: state.activation,
+    docker: {
+      image: state.activation.dockerImage,
+      port: 3001,
+      mode: "per-tenant",
+      network: "isolated",
+    },
+  };
+}
+
+function downloadActivationPack() {
+  const blob = new Blob([JSON.stringify(buildActivationPack(), null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `${slugify(state.restaurantName)}-activation-pack.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 function renderAll() {
   updateFormFromState();
   renderModules();
   renderSummary();
   renderPreview();
   renderTrustCenter();
+  renderActivation();
   buildQuote();
   document.querySelectorAll(".price-card").forEach((card) => {
     card.classList.toggle("featured", card.dataset.plan === state.plan);
@@ -431,5 +515,11 @@ resetButton.addEventListener("click", resetConfig);
 copyButton.addEventListener("click", copySummary);
 downloadQuoteButton.addEventListener("click", downloadQuote);
 copyQuoteButton.addEventListener("click", () => navigator.clipboard.writeText(quoteText()));
+generateInstanceButton.addEventListener("click", () => {
+  state.activation.status = "Validation requise";
+  saveConfig();
+  renderAll();
+});
+downloadInstanceButton.addEventListener("click", downloadActivationPack);
 
 renderAll();

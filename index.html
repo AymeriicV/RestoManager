@@ -24,6 +24,7 @@
         <a href="#onboarding">Onboarding</a>
         <a href="#tarifs">Tarifs</a>
         <a href="#config">Configurateur</a>
+        <a href="#activation">Activation</a>
         <a href="#trust">Confiance</a>
         <a href="#quote">Devis</a>
         <a href="#dossier">Dossier</a>
@@ -291,6 +292,52 @@
           </div>
         </div>
         <div class="trust-grid" id="trust-grid"></div>
+      </section>
+
+      <section id="activation" class="panel activation">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Activation</p>
+            <h2>Créer l'instance du restaurant</h2>
+            <p>Le client saisit ses infos, valide, puis télécharge le pack d’activation avec configuration et docker.</p>
+          </div>
+          <div class="activation-actions">
+            <button class="btn primary" id="generate-instance">Générer le pack</button>
+            <button class="btn secondary" id="download-instance">Télécharger le pack</button>
+          </div>
+        </div>
+        <div class="activation-layout">
+          <div class="activation-card">
+            <h3>Instance client</h3>
+            <p class="muted">Sous-domaine, accès, forfait, modules et état du déploiement.</p>
+            <div class="activation-hero">
+              <div>
+                <span>Restaurant</span>
+                <strong id="instance-name"></strong>
+              </div>
+              <div>
+                <span>URL</span>
+                <strong id="instance-url"></strong>
+              </div>
+              <div>
+                <span>État</span>
+                <strong id="instance-status"></strong>
+              </div>
+              <div>
+                <span>Docker</span>
+                <strong id="instance-docker"></strong>
+              </div>
+              <div>
+                <span>Santé</span>
+                <strong id="instance-health"></strong>
+              </div>
+            </div>
+          </div>
+          <div class="activation-card">
+            <h3>Checklist d'activation</h3>
+            <ul id="activation-checklist" class="checklist compact"></ul>
+          </div>
+        </div>
       </section>
 
       <section id="quote" class="panel quote">

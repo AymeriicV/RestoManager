@@ -21,7 +21,7 @@ This repository is the **sales and demo copy** of the product.
 docker compose up
 ```
 
-Then open `http://localhost:8080`.
+Then open `http://localhost:3001`.
 
 ## Restaurant self-service
 
@@ -36,7 +36,7 @@ Each restaurant can configure:
 - integrations
 - label printing
 
-The configuration is stored in the browser and can be exported as JSON.
+The configuration is stored in the browser and can be exported as JSON, including the activation pack that can be handed to a client tenant.
 
 ## Sales docs
 
