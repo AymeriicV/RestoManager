@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RestoManager - Vente et configuration autonome</title>
+    <meta
+      name="description"
+      content="Logiciel restaurant premium pour stock, factures, HACCP, planning et analytics. Configuration autonome par restaurant."
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script defer src="./app.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">RM</div>
+        <div>
+          <p class="eyebrow">RestoManager</p>
+          <h1>Vente du logiciel + configuration autonome par restaurant</h1>
+        </div>
+      </div>
+      <nav class="topnav">
+        <a href="#tarifs">Tarifs</a>
+        <a href="#config">Configurateur</a>
+        <a href="#dossier">Dossier</a>
+      </nav>
+    </header>
+
+    <main class="page">
+      <section class="hero panel">
+        <div class="hero-copy">
+          <p class="eyebrow">SaaS restaurant</p>
+          <h2>Une base propre, claire et vendable.</h2>
+          <p>
+            Chaque restaurant peut se paramétrer seul: identité, modules, HACCP, stock, OCR, intégrations et impression.
+            Le client comprend ce qu'il achète, et le produit reste simple à déployer.
+          </p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#config">Configurer un restaurant</a>
+            <a class="btn secondary" href="#tarifs">Voir les offres</a>
+          </div>
+        </div>
+        <div class="hero-card">
+          <p class="eyebrow">Résumé commercial</p>
+          <ul id="commercial-summary" class="summary-list"></ul>
+        </div>
+      </section>
+
+      <section id="tarifs" class="pricing-grid">
+        <article class="panel price-card" data-plan="starter">
+          <p class="eyebrow">Starter</p>
+          <h3>1 restaurant</h3>
+          <p class="price">79€ <span>/ mois</span></p>
+          <ul>
+            <li>Stock, factures, recettes, HACCP, planning</li>
+            <li>Support email</li>
+            <li>Configuration autonome</li>
+          </ul>
+          <button class="btn secondary select-plan" data-select-plan="starter">Choisir Starter</button>
+        </article>
+        <article class="panel price-card featured" data-plan="pro">
+          <p class="eyebrow">Pro</p>
+          <h3>Restaurant avancé</h3>
+          <p class="price">149€ <span>/ mois</span></p>
+          <ul>
+            <li>OCR, analytics, alertes prix</li>
+            <li>Étiquettes et production</li>
+            <li>Support prioritaire</li>
+          </ul>
+          <button class="btn primary select-plan" data-select-plan="pro">Choisir Pro</button>
+        </article>
+        <article class="panel price-card" data-plan="group">
+          <p class="eyebrow">Groupe</p>
+          <h3>Multi-restaurants</h3>
+          <p class="price">249€ <span>/ mois</span></p>
+          <ul>
+            <li>Permissions par rôle</li>
+            <li>Reporting partagé</li>
+            <li>Onboarding inclus</li>
+          </ul>
+          <button class="btn secondary select-plan" data-select-plan="group">Choisir Groupe</button>
+        </article>
+      </section>
+
+      <section id="config" class="panel configurator">
+        <div class="config-head">
+          <div>
+            <p class="eyebrow">Configurateur autonome</p>
+            <h2>Paramètres restaurant</h2>
+            <p>Le client peut adapter le logiciel à son exploitation sans dépendre d'une intervention technique.</p>
+          </div>
+          <div class="config-actions">
+            <button class="btn secondary" id="save-config">Sauvegarder</button>
+            <button class="btn secondary" id="export-config">Exporter JSON</button>
+            <button class="btn ghost" id="reset-config">Réinitialiser</button>
+          </div>
+        </div>
+
+        <div class="config-layout">
+          <form class="config-form" id="restaurant-form">
+            <div class="form-grid">
+              <label>
+                <span>Nom du restaurant</span>
+                <input name="restaurantName" type="text" />
+              </label>
+              <label>
+                <span>Adresse</span>
+                <input name="address" type="text" />
+              </label>
+              <label>
+                <span>Ville</span>
+                <input name="city" type="text" />
+              </label>
+              <label>
+                <span>Devise</span>
+                <input name="currency" type="text" />
+              </label>
+              <label>
+                <span>TVA</span>
+                <input name="vatRate" type="number" step="0.01" />
+              </label>
+              <label>
+                <span>Fuseau horaire</span>
+                <input name="timezone" type="text" />
+              </label>
+            </div>
+
+            <div class="field-group">
+              <h3>Modules activés</h3>
+              <div class="chips" id="module-switches"></div>
+            </div>
+
+            <div class="field-group">
+              <h3>HACCP</h3>
+              <div class="form-grid compact">
+                <label>
+                  <span>Température froid positif</span>
+                  <input name="coldMin" type="text" />
+                </label>
+                <label>
+                  <span>Température froid positif max</span>
+                  <input name="coldMax" type="text" />
+                </label>
+                <label>
+                  <span>Température chaud min</span>
+                  <input name="hotMin" type="text" />
+                </label>
+                <label>
+                  <span>Seuil conformité</span>
+                  <input name="haccpThreshold" type="number" step="1" />
+                </label>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <h3>Stock et recettes</h3>
+              <div class="form-grid compact">
+                <label>
+                  <span>Seuil de réapprovisionnement</span>
+                  <input name="reorderThreshold" type="number" step="1" />
+                </label>
+                <label>
+                  <span>Food cost cible</span>
+                  <input name="targetFoodCost" type="number" step="0.01" />
+                </label>
+                <label>
+                  <span>Marge cible</span>
+                  <input name="targetMargin" type="number" step="0.01" />
+                </label>
+                <label>
+                  <span>Unité par défaut</span>
+                  <input name="defaultUnit" type="text" />
+                </label>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <h3>OCR et intégrations</h3>
+              <div class="form-grid compact">
+                <label>
+                  <span>Mode OCR</span>
+                  <select name="ocrMode">
+                    <option value="local">Local</option>
+                    <option value="hybrid">Hybride</option>
+                    <option value="ia">IA</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Seuil confiance</span>
+                  <input name="ocrThreshold" type="number" step="0.01" />
+                </label>
+                <label>
+                  <span>API L'Addition</span>
+                  <input name="additionUrl" type="text" />
+                </label>
+                <label>
+                  <span>Imprimante étiquettes</span>
+                  <input name="printer" type="text" />
+                </label>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <h3>Impression</h3>
+              <div class="form-grid compact">
+                <label>
+                  <span>Type imprimante</span>
+                  <select name="printerType">
+                    <option value="browser">Navigateur</option>
+                    <option value="network">Réseau</option>
+                    <option value="escpos">ESC/POS</option>
+                    <option value="label">Étiquette</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Format étiquette</span>
+                  <input name="labelFormat" type="text" />
+                </label>
+                <label>
+                  <span>Adresse IP</span>
+                  <input name="printerIp" type="text" />
+                </label>
+                <label>
+                  <span>Restaurant ID</span>
+                  <input name="restaurantId" type="text" readonly />
+                </label>
+              </div>
+            </div>
+          </form>
+
+          <aside class="preview panel">
+            <p class="eyebrow">Aperçu client</p>
+            <h3 id="preview-name"></h3>
+            <p id="preview-location" class="muted"></p>
+            <div class="preview-metrics">
+              <div><span>Forfait</span><strong id="preview-plan"></strong></div>
+              <div><span>Mensuel</span><strong id="preview-price"></strong></div>
+              <div><span>Modules actifs</span><strong id="preview-modules"></strong></div>
+              <div><span>Conformité</span><strong id="preview-haccp"></strong></div>
+            </div>
+            <div class="preview-block">
+              <h4>Résumé de configuration</h4>
+              <pre id="config-json"></pre>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="dossier" class="panel dossier">
+        <div>
+          <p class="eyebrow">Dossier de vente</p>
+          <h2>Ce qu’un acheteur reçoit</h2>
+          <ul class="checklist">
+            <li>Code source et accès GitHub</li>
+            <li>Environnements Docker et variables</li>
+            <li>Pack de démo et offre commerciale</li>
+            <li>Checklist de due diligence</li>
+            <li>Guide de livraison client</li>
+          </ul>
+        </div>
+        <div class="dossier-actions">
+          <button class="btn primary" id="copy-summary">Copier le résumé</button>
+          <a class="btn secondary" href="sales/delivery-checklist.md" download>Télécharger la checklist</a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

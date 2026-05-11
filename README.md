@@ -2,22 +2,41 @@
 
 RestoManager is a restaurant SaaS for stock, invoices, recipes, HACCP, planning, time clock, and analytics.
 
-This repository is now the **sales copy** of the product.
+This repository is the **sales and demo copy** of the product.
 
 ## What it includes
 
-- FastAPI backend
-- Next.js frontend
-- PostgreSQL + Prisma
-- Dockerized local stack
-- restaurant workflows for suppliers, stock, invoices, recipes, HACCP, planning, badgeuse, and analytics
+- a commercial landing page
+- a self-service restaurant configurator
+- pricing and packaging
+- a sales demo script
+- a delivery and due diligence pack
 
-## Recommended commercial path
+## How to use
 
-1. SaaS subscription per restaurant
-2. onboarding / setup fee
-3. higher plan for multi-site groups
-4. optional dedicated installation for larger clients
+1. Open `index.html` directly in a browser, or
+2. run the static demo with Docker:
+
+```bash
+docker compose up
+```
+
+Then open `http://localhost:8080`.
+
+## Restaurant self-service
+
+Each restaurant can configure:
+
+- restaurant identity
+- plan and billing
+- enabled modules
+- HACCP settings
+- stock rules
+- OCR settings
+- integrations
+- label printing
+
+The configuration is stored in the browser and can be exported as JSON.
 
 ## Sales docs
 
