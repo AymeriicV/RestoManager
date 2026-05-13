@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <title>Operyx</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./app.css" />
+  </head>
+  <body>
+    <div class="app-shell" id="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark">O</div>
+          <div>
+            <div class="eyebrow">Operyx Android</div>
+            <h1 id="shell-title">Console mobile</h1>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <button class="ghost" id="btn-fullscreen">Plein ecran</button>
+          <button class="ghost" id="btn-settings">Parametres</button>
+        </div>
+      </header>
+
+      <main class="content">
+        <section class="panel hero" id="setup-panel">
+          <div>
+            <p class="eyebrow">Application Android premium</p>
+            <h2>Ouvre n'importe quelle instance Operyx dans un vrai conteneur Android.</h2>
+            <p class="lead">
+              Le web reste la source principale. Cette app encapsule l'espace client, ajoute le Bluetooth imprimante et garde une configuration propre par restaurant.
+            </p>
+          </div>
+
+          <div class="setup-grid">
+            <label>
+              <span>URL de l'instance</span>
+              <input id="instance-url" type="url" placeholder="https://restaurant.operyx.online" />
+            </label>
+            <label>
+              <span>Nom du client</span>
+              <input id="instance-name" type="text" placeholder="Le bistango" />
+            </label>
+          </div>
+
+          <div class="setup-actions">
+            <button class="primary" id="btn-save-instance">Ouvrir Operyx</button>
+            <button class="ghost" id="btn-demo-instance">Exemple rapide</button>
+          </div>
+
+          <div class="recent-list" id="recent-instances"></div>
+        </section>
+
+        <section class="workspace hidden" id="workspace">
+          <div class="workspace-head">
+            <div>
+              <p class="eyebrow" id="instance-label">Instance</p>
+              <h2 id="workspace-title">Operyx</h2>
+              <p class="muted" id="workspace-subtitle"></p>
+            </div>
+            <div class="workspace-actions">
+              <button class="ghost" data-route="/">Accueil</button>
+              <button class="ghost" data-route="/planning">Planning</button>
+              <button class="ghost" data-route="/time-clock">Badgeuse</button>
+              <button class="ghost" data-route="/haccp">HACCP</button>
+              <button class="ghost" data-route="/temperatures">Températures</button>
+              <button class="ghost" data-route="/labels">Etiquettes</button>
+              <button class="ghost" data-route="/invoices">Factures</button>
+            </div>
+          </div>
+
+          <div class="status-row">
+            <span class="status-pill" id="network-pill">Reseau</span>
+            <span class="status-pill" id="printer-pill">Imprimante</span>
+            <span class="status-pill" id="shell-pill">Shell</span>
+          </div>
+
+          <section class="panel native-screen" id="native-screen">
+            <div class="native-screen-head">
+              <div>
+                <p class="eyebrow" id="native-screen-kicker">Mode mobile</p>
+                <h3 id="native-screen-title">Planning, badgeuse, HACCP</h3>
+              </div>
+              <div class="native-screen-actions">
+                <button class="ghost small" id="btn-back">Retour</button>
+                <button class="ghost small" id="btn-forward">Avant</button>
+              </div>
+            </div>
+            <div class="native-screen-grid" id="native-screen-grid"></div>
+          </section>
+
+          <div class="native-grid">
+            <article class="panel frame-panel">
+              <div class="frame-toolbar">
+                <div class="frame-path" id="frame-path">/</div>
+                <button class="ghost small" id="btn-reload-frame">Recharger</button>
+              </div>
+              <iframe
+                id="site-frame"
+                title="Operyx"
+                loading="eager"
+                referrerpolicy="no-referrer"
+                allow="camera; microphone; clipboard-read; clipboard-write; geolocation; fullscreen"
+              ></iframe>
+              <div class="frame-footer">
+                <button class="ghost" id="btn-camera">Camera facture</button>
+                <button class="ghost" id="btn-gallery">Galerie</button>
+                <button class="ghost" id="btn-share">Partager PDF</button>
+                <button class="ghost" id="btn-notifications">Push</button>
+              </div>
+            </article>
+
+              <aside class="panel drawer" id="drawer">
+              <div class="drawer-head">
+                <div>
+                  <p class="eyebrow">Impression Bluetooth</p>
+                  <h3>Operyx Printer Hub</h3>
+                </div>
+                <button class="ghost small" id="btn-close-drawer">Fermer</button>
+              </div>
+
+              <div class="card">
+                <div class="card-head">
+                  <strong>Imprimante favorite</strong>
+                  <button class="ghost tiny" id="btn-scan-printers">Scanner</button>
+                </div>
+                <div class="printer-list" id="printer-list"></div>
+              </div>
+
+              <div class="card">
+                <label>
+                  <span>Target Bluetooth</span>
+                  <input id="printer-target" type="text" placeholder="AA:BB:CC:DD:EE:FF" />
+                </label>
+                <label>
+                  <span>Nom imprimante</span>
+                  <input id="printer-name" type="text" placeholder="Epson TM-m30III" />
+                </label>
+                <div class="row-actions">
+                  <button class="primary" id="btn-save-printer">Enregistrer</button>
+                  <button class="ghost" id="btn-test-print">Test DLC</button>
+                </div>
+              </div>
+
+              <div class="card">
+                <strong>Raccourcis mobile</strong>
+                <div class="shortcut-grid">
+                  <button class="ghost" data-route="/planning">Equipe</button>
+                  <button class="ghost" data-route="/time-clock">Pointage</button>
+                  <button class="ghost" data-route="/notifications">Alertes</button>
+                  <button class="ghost" data-route="/settings">Parametres</button>
+                  <button class="ghost" data-route="/haccp">Taches HACCP</button>
+                  <button class="ghost" data-route="/temperatures">Temperatures</button>
+                </div>
+              </div>
+
+              <div class="card">
+                <strong>Imports rapides</strong>
+                <p class="muted">Capture photo ou fichier pour la facture, la production ou un document HACCP.</p>
+                <div class="row-actions">
+                  <button class="ghost" id="btn-capture-invoice">Photo facture</button>
+                  <button class="ghost" id="btn-pick-file">Choisir fichier</button>
+                </div>
+                <div class="file-preview" id="file-preview">Aucun fichier selectionne.</div>
+              </div>
+            </aside>
+          </div>
+        </section>
+      </main>
+
+      <input id="hidden-file" type="file" accept="image/*,application/pdf" class="hidden" />
+      <input id="hidden-camera" type="file" accept="image/*" capture="environment" class="hidden" />
+    </div>
+    <script src="./app.js"></script>
+  </body>
+</html>

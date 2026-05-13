@@ -1,0 +1,7 @@
+<resources>
+  <color name="operyx_bg">#0B0F16</color>
+  <color name="operyx_bg_elev">#101827</color>
+  <color name="operyx_gold">#F5B700</color>
+  <color name="operyx_text">#EEF2FF</color>
+  <color name="operyx_muted">#9AA6BF</color>
+</resources>

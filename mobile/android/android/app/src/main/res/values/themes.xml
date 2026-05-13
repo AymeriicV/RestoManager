@@ -1,0 +1,12 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <style name="Theme.Operyx" parent="Theme.Material3.DayNight.NoActionBar">
+    <item name="android:statusBarColor">@color/operyx_bg</item>
+    <item name="android:navigationBarColor">@color/operyx_bg</item>
+    <item name="android:windowBackground">@color/operyx_bg</item>
+    <item name="android:fontFamily">sans-serif</item>
+  </style>
+
+  <style name="Theme.Operyx.Splash" parent="Theme.Operyx">
+    <item name="android:windowBackground">@drawable/launch_background</item>
+  </style>
+</resources>
