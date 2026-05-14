@@ -18,6 +18,14 @@ Le principe:
 
 ## Installation locale
 
+Ouvre ce dossier dans Android Studio:
+
+```text
+mobile/android/android
+```
+
+Si Android Studio lance une configuration Java vide, sélectionne la configuration `Operyx Android` dans la barre du haut, puis relance `Run`.
+
 ```bash
 cd mobile/android
 npm install
